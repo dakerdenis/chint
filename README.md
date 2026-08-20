@@ -16,7 +16,25 @@ Developed end-to-end (backend, architecture, infrastructure, deployment) at [DAK
 ## Overview
 
 A multilingual corporate platform that presents CHINT's industrial and energy product range in the Caucasus market, with an automated product catalog synced from CHINT's partner system.
+---
 
+## Screenshots
+
+<p align="center">
+  <img src="docs/screenshots/home.png" alt="Homepage" width="800"/>
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/catalog.png" alt="Product catalog" width="800"/>
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/product.png" alt="Product detail" width="800"/>
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/contact.png" alt="Distributors map" width="800"/>
+</p>
 ## Key Features
 
 - **Multilingual** — English, Russian, Azerbaijani, and Georgian via Django i18n
