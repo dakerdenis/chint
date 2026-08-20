@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>CHINT API TEST</title>
+</head>
+
+<body>
+    <h2>CHINT API TEST</h2>
+
+    <ul>
+        <li>
+    <a href="/api-test2/categories/ui/">
+        Categories (Catalog)
+    </a>
+</li>
+
+
+
+<li>-------</li>
+        <li><a href="/api-test2/products/ui/">Products UI (25 + pagination) Рабочее</a></li>
+        <li><a href="/api-test2/products/?limit=25">Products JSON</a></li>
+        <li><a href="/api-test2/products/?limit=25">
+                Products (25, no properties)
+            </a>
+        </li>
+        <li> <a href="/api-test2/products/?limit=25&properties=filled">
+                Products (25, WITH properties)
+            </a></li>
+        <li> <a href="/api-test2/products/?vendor_code=111638&properties=filled">
+                Single product WITH properties
+            </a> </li>
+
+        <li> <a href="/api-test2/categories/">
+                Categories
+            </a> </li>
+        <li>
+            <a href="/api-test2/categories/ui/">
+                Categories TREE
+            </a>
+        </li>
+
+        <li> <a href="/api-test2/properties/">
+                Property dictionary
+            </a> </li>
+
+        <li> <a href="/api-test2/property-values/?limit=25">
+                Property values (25)
+            </a> </li>
+    </ul>
+
+</body>
+
+</html>

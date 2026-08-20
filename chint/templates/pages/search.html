@@ -1,0 +1,314 @@
+{% extends "base.html" %}
+{% load static i18n site_text %}
+
+{% block title %}
+{% if query %}Search: {{ query }} — CHINT{% else %}Search — CHINT{% endif %}
+{% endblock %}
+
+{% block page_css %}
+<link rel="stylesheet" href="{% static 'css/pages/catalog-category.css' %}" />
+{% endblock %}
+
+{% block content %}
+<style>
+  .search-page { min-height: 670px; }
+  .search-container { max-width: 1400px; margin: 0px auto 80px; }
+  .search-header { margin-bottom: 30px; }
+  .search-header h2 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+  .search-header p { color: #666; }
+/* SEARCH FORM ON PAGE */
+.search-page-form {
+  margin-bottom: 30px;
+}
+
+.search-page-form form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 640px;
+  background: #fff;
+  border: 1px solid #e3e3e3;
+  border-radius: 12px;
+  padding: 6px 6px 6px 18px;
+  transition: 0.2s;
+}
+
+.search-page-form form:focus-within {
+  border-color: var(--blue-main);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+.search-page-form input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 15px;
+  background: transparent;
+  color: #222;
+  padding: 10px 0;
+}
+
+.search-page-form button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 8px;
+  background: var(--blue-main);
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.search-page-form button:hover {
+  opacity: 0.88;
+}
+
+.search-page-form button svg {
+  width: 20px;
+  height: 20px;
+}
+
+@media (max-width: 600px) {
+  .search-page-form form {
+    padding: 4px 4px 4px 14px;
+  }
+  .search-page-form input {
+    font-size: 14px;
+    padding: 8px 0;
+  }
+  .search-page-form button {
+    width: 38px;
+    height: 38px;
+  }
+}
+  @media (max-width: 992px) {
+    .search-container { margin: 100px 20px 60px; }
+  }
+  @media (max-width: 600px) {
+    .search-container { margin: 90px 15px 50px; }
+    .search-header h2 { font-size: 22px; }
+  }
+</style>
+
+<section class="search-page catalog-category-page">
+  <div class="container search-container">
+  <div class="search-page-form">
+    <form method="get" action="{% url 'web:search' %}">
+      <input
+        type="text"
+        name="q"
+        required
+        placeholder="{{ 'nav.search.desc'|t:request }}"
+        value="{{ query }}"
+        autofocus
+      >
+      <button type="submit" aria-label="Search">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path
+            d="M10.875 18.75C15.2242 18.75 18.75 15.2242 18.75 10.875 18.75 6.5258 15.2242 3 10.875 3 6.5258 3 3 6.5258 3 10.875 3 15.2242 6.5258 18.75 10.875 18.75ZM16.4434 16.4438 20.9997 21.0002"
+            stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          </path>
+        </svg>
+      </button>
+    </form>
+  </div>
+    {% if query %}
+      <div class="search-header">
+        <h2>{{ "search.result"|t:request }}</h2>
+        <p><span id="search-count">0</span> {{ "search.products-found"|t:request }} "<strong>{{ query }}</strong>"</p>
+      </div>
+
+      <div class="catalog-layout">
+        <aside id="filters-block" class="catalog-filters"></aside>
+
+        <div id="products-block" class="subcategory__goods" data-query="{{ query }}">
+          <div id="products-loader">{{ "catalog.loading"|t:request|default:"Загрузка товаров…" }}</div>
+        </div>
+      </div>
+    {% else %}
+      <div class="search-header">
+        <h2>Start typing to search products</h2>
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% if query %}
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const productsBlock = document.getElementById("products-block");
+  const filtersBlock  = document.getElementById("filters-block");
+  const countEl       = document.getElementById("search-count");
+  const query         = productsBlock.dataset.query;
+
+  let currentPage = 1;
+
+  function getActiveFilters() {
+    const params = new URLSearchParams();
+    filtersBlock.querySelectorAll("input:checked").forEach(cb => {
+      params.append(`prop_${cb.dataset.prop}`, cb.value);
+    });
+    return params.toString();
+  }
+
+  function loadProducts(params = "") {
+    const lang = window.location.pathname.split("/")[1];
+    const url = `/${lang}/search-products/?q=${encodeURIComponent(query)}&page=${currentPage}&${params}`;
+
+    fetch(url)
+      .then(r => r.json())
+      .then(data => {
+        if (countEl) countEl.textContent = data.count;
+        renderProducts(data);
+        renderPagination(data);
+        if (data.facets) renderFilters(data.facets);
+      });
+  }
+
+  function renderProducts(data) {
+    if (!data.results || !data.results.length) {
+      productsBlock.innerHTML = `<div class="no-results">{{ "search.none"|t:request }}</div>`;
+      return;
+    }
+
+    const lang = window.location.pathname.split("/")[1];
+    let skuLabel = "Артикул";
+    if (lang === "en") skuLabel = "Article";
+    if (lang === "az") skuLabel = "Məhsul kodu";
+    if (lang === "ka") skuLabel = "სტატია";
+
+    productsBlock.innerHTML = `
+      <div class="category-goods-grid">
+        ${data.results.map(p => `
+          <a href="/${lang}/product/${p.id}/" class="product-card">
+            <div class="product-img product-img--compact">
+              ${p.picture ? `<img src="${p.picture}">` : ""}
+            </div>
+            <div class="product-body">
+              <div class="product-title">${p.name}</div>
+              <div class="product-sku">${skuLabel}: ${p.vendor_code}</div>
+            </div>
+          </a>
+        `).join("")}
+      </div>
+      <div id="pagination-holder"></div>
+    `;
+  }
+
+  function renderPagination(data) {
+    const holder = document.getElementById("pagination-holder");
+    if (!holder) return;
+
+    const total = data.num_pages;
+    if (total <= 1) { holder.innerHTML = ""; return; }
+
+    const pages = new Set();
+    pages.add(1); pages.add(2);
+    for (let i = currentPage - 2; i <= currentPage + 2; i++) {
+      if (i > 0 && i <= total) pages.add(i);
+    }
+    pages.add(total - 1); pages.add(total);
+
+    const sorted = [...pages].filter(p => p >= 1 && p <= total).sort((a, b) => a - b);
+
+    let html = `<div class="pagination">`;
+    if (currentPage > 1) html += `<button data-page="${currentPage - 1}">‹</button>`;
+
+    let last = null;
+    sorted.forEach(p => {
+      if (last && p - last > 1) html += `<span class="pagination-dots">…</span>`;
+      html += `<button data-page="${p}" class="${p === currentPage ? "active" : ""}">${p}</button>`;
+      last = p;
+    });
+
+    if (currentPage < total) html += `<button data-page="${currentPage + 1}">›</button>`;
+    html += `</div>`;
+    holder.innerHTML = html;
+
+    holder.querySelectorAll("button").forEach(btn => {
+      btn.addEventListener("click", () => {
+        currentPage = parseInt(btn.dataset.page, 10);
+        loadProducts(getActiveFilters());
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    });
+  }
+
+  function renderFilters(facets) {
+    if (!facets) return;
+
+    const selected = new Set(
+      [...filtersBlock.querySelectorAll("input:checked")]
+        .map(cb => `${cb.dataset.prop}::${cb.value}`)
+    );
+
+    let html = "";
+    Object.entries(facets).forEach(([pid, facet]) => {
+      html += `<div class="filter-group">
+        <div class="filter-title">${facet.name}</div>
+        <div class="filter-options" data-collapsed="true">`;
+
+      facet.values.forEach(v => {
+        const key = `${pid}::${v.value}`;
+        const checked = selected.has(key) ? "checked" : "";
+        html += `
+          <label class="filter-option">
+            <input type="checkbox" data-prop="${pid}" value="${v.value}" ${checked}>
+            <span>${v.value}</span>
+            <span class="filter-count">(${v.count})</span>
+          </label>`;
+      });
+
+      const needCollapse = facet.values.length > 3;
+      html += `</div>`;
+      if (needCollapse) {
+        html += `<div class="filter-toggle" data-open="false">Показать ещё <span class="arrow"></span></div>`;
+      }
+      html += `</div>`;
+    });
+
+    filtersBlock.innerHTML = html;
+
+    filtersBlock.querySelectorAll("input").forEach(cb => {
+      cb.addEventListener("change", applyFilters);
+    });
+
+    filtersBlock.querySelectorAll(".filter-group").forEach(group => {
+      const options = group.querySelector(".filter-options");
+      const toggle  = group.querySelector(".filter-toggle");
+      if (!options) return;
+
+      const items = options.querySelectorAll(".filter-option");
+      if (items.length <= 3) return;
+
+      items.forEach((el, i) => { if (i >= 3) el.classList.add("hidden"); });
+
+      if (toggle) {
+        toggle.addEventListener("click", () => {
+          const isOpen = toggle.dataset.open === "true";
+          items.forEach((el, i) => {
+            if (i >= 3) el.classList.toggle("hidden", isOpen);
+          });
+          toggle.dataset.open = (!isOpen).toString();
+          toggle.innerHTML = isOpen
+            ? `Показать ещё <span class="arrow"></span>`
+            : `Скрыть <span class="arrow open"></span>`;
+        });
+      }
+    });
+  }
+
+  function applyFilters() {
+    currentPage = 1;
+    loadProducts(getActiveFilters());
+  }
+
+  loadProducts();
+});
+</script>
+{% endif %}
+
+{% endblock %}

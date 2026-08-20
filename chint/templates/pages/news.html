@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load static site_text %}
+
+{% block title %}{{ "news.name"|t:request }} — Chint{% endblock %}
+
+{% block page_css %}
+  <link rel="stylesheet" href="{% static 'css/pages/news.css' %}">
+{% endblock %}
+
+{% block content %}
+{# Используем ТОЧНО ту же разметку/классы, что и на главной #}
+<div class="home__news">
+  <div class="home__news-container">
+    <div class="home__news-name">
+      <h3>{{ "news.name"|t:request }}</h3>
+    </div>
+
+    <div class="home__news_wrapper">
+      {% for n in page_obj.object_list %}
+      <a href="{% url 'web:news_detail' slug=n.slug %}" class="news__element">
+        <div class="news__element-image">
+          {% if n.cover %}
+          <img src="{{ n.cover.url }}" alt="">
+          {% endif %}
+        </div>
+        <div class="news__element-desc">
+          <div class="news__element-date">
+            {{ n.published_at|date:"d.m.Y" }}
+          </div>
+          <div class="news__element-name">
+            {% if request.LANGUAGE_CODE == "ru" %}
+              {{ n.title_ru }}
+            {% elif request.LANGUAGE_CODE == "az" %}
+              {{ n.title_az|default:n.title_en|default:n.title_ru }}
+            {% elif request.LANGUAGE_CODE == "ka" %}
+              {{ n.title_ka|default:n.title_en|default:n.title_ru }}
+            {% else %}
+              {{ n.title_en|default:n.title_ru }}
+            {% endif %}
+          </div>
+        </div>
+      </a>
+      {% empty %}
+        <div class="empty">Нет новостей</div>
+      {% endfor %}
+    </div>
+
+    {# пагинация (без стилей, просто рабочая) #}
+    {% if page_obj.paginator.num_pages > 1 %}
+    <nav class="pagination">
+      {% if page_obj.has_previous %}
+        <a class="page" href="?page=1">«</a>
+        <a class="page" href="?page={{ page_obj.previous_page_number }}">‹</a>
+      {% else %}
+        <span class="page disabled">«</span>
+        <span class="page disabled">‹</span>
+      {% endif %}
+
+      <span class="page current">
+        {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+      </span>
+
+      {% if page_obj.has_next %}
+        <a class="page" href="?page={{ page_obj.next_page_number }}">›</a>
+        <a class="page" href="?page={{ page_obj.paginator.num_pages }}">»</a>
+      {% else %}
+        <span class="page disabled">›</span>
+        <span class="page disabled">»</span>
+      {% endif %}
+    </nav>
+    {% endif %}
+
+  </div>
+</div>
+{% endblock %}

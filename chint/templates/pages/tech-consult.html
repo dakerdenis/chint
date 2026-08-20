@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static i18n site_text %}
+
+{% block title %}Technical Consulting — Chint{% endblock %}
+
+{% block page_css %}
+<link rel="stylesheet" href="{% static 'css/pages/tech.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="consult_wrapper">
+  <div class="consult__container">
+    <h3>{{ "tech.consult"|t:request }}</h3>
+    <div class="consult__content">
+      <p>{{ "tech.consult.desc1"|t:request }}</p>
+      <p>{{ "tech.consult.desc2"|t:request }}</p>
+    </div>
+    <div class="consult__contact">
+      <p>{{ "site.number"|t:request }}:
+        <span>+994 (12) 499 21 11</span>
+      </p>
+      <p>E-mail:
+        <span>info@chintcaucasus.com</span>
+      </p>
+      <p>{{ "site.worktime"|t:request }}
+        :
+        <span>{{ "site.worktime.data"|t:request }}</span>
+      </p>
+    </div>
+  </div>
+
+  {# ----FORM--- #}
+  {% include "includes/contact-form.html" %}
+
+  {# ----FORM--- #}
+</section>
+{% endblock %}

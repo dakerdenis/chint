@@ -1,0 +1,433 @@
+{% extends "base.html" %}
+{% load static i18n site_text %}
+
+{% block title %}
+{{ "nav.library"|t:request }} — Chint
+{% endblock %}
+
+{% block page_css %}
+<link rel="stylesheet" href="{% static 'css/pages/library.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="library-page">
+    <div class="library_container">
+        <div class="library__desc">
+            <div class="library__desc-img">
+                <img src="{% static 'img/library.jpg' %}" alt="">
+            </div>
+            <h3>{{ "library.page.name"|t:request }}</h3>
+        </div>
+
+        <div class="library__wrapper">
+
+            <!-- SEARCH -->
+            <div class="library__search-box">
+                <br>
+                <div class="library__search-inner">
+                    <svg class="library__search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"/>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                    </svg>
+                    <input
+                        type="text"
+                        id="librarySearch"
+                        class="library__search-input"
+                        placeholder="{% if request.LANGUAGE_CODE == 'ru' %}Поиск документов…{% elif request.LANGUAGE_CODE == 'az' %}Sənəd axtarışı…{% elif request.LANGUAGE_CODE == 'ka' %}დოკუმენტების ძიება…{% else %}Search documents…{% endif %}"
+                        autocomplete="off"
+                    >
+                    <button class="library__search-clear" id="searchClear" title="Clear">&times;</button>
+                </div>
+                <div class="library__search-status" id="searchStatus"></div>
+            </div>
+
+            <!-- TABS -->
+            <div class="library-tabs" id="libraryTabs">
+                <div class="library-tab {% if active_tab == 0 %}active{% endif %}" data-tab="0">
+                    {{ "library.tab.1"|t:request }}</div>
+                <div class="library-tab {% if active_tab == 1 %}active{% endif %}" data-tab="1">
+                    {{ "library.tab.2"|t:request }}</div>
+                <div class="library-tab {% if active_tab == 2 %}active{% endif %}" data-tab="2">
+                    {{ "library.tab.3"|t:request }}</div>
+                <div class="library-tab {% if active_tab == 3 %}active{% endif %}" data-tab="3">
+                    {{ "library.tab.4"|t:request }}</div>
+                <div class="library-tab {% if active_tab == 4 %}active{% endif %}" data-tab="4">
+                    {{ "library.tab.5"|t:request }}</div>
+                <div class="library-tab {% if active_tab == 5 %}active{% endif %}" data-tab="5">
+                    {{ "library.tab.6"|t:request }}</div>
+            </div>
+
+            <!-- CONTENT AREA -->
+            <div class="library__content">
+                <div class="library__tab-wrapper" id="libraryCards">
+                    {% include "pages/_library_cards.html" %}
+                </div>
+                <div class="library__pagination" id="libraryPagination"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+/* =========================
+   SEARCH BOX
+========================= */
+.library__search-box {
+    margin-bottom: 20px;
+}
+.library__search-inner {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.library__search-icon {
+    position: absolute;
+    left: 16px;
+    width: 20px;
+    height: 20px;
+    color: #999;
+    pointer-events: none;
+    transition: color 0.2s;
+}
+.library__search-input {
+    width: 100%;
+    height: 50px;
+    padding: 0 44px 0 48px;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    background: #fff;
+    font-size: 15px;
+    color: var(--grey-text, #333);
+    outline: none;
+    transition: border-color 0.25s, box-shadow 0.25s;
+}
+.library__search-input::placeholder {
+    color: #b0b0b0;
+}
+.library__search-input:focus {
+    border-color: var(--blue-main, #237AE2);
+    box-shadow: 0 0 0 3px rgba(35, 122, 226, 0.10);
+}
+.library__search-input:focus ~ .library__search-icon,
+.library__search-inner:hover .library__search-icon {
+    color: var(--blue-main, #237AE2);
+}
+.library__search-clear {
+    position: absolute;
+    right: 8px;
+    width: 34px;
+    height: 34px;
+    border: none;
+    background: transparent;
+    font-size: 22px;
+    color: #999;
+    cursor: pointer;
+    border-radius: 8px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, color 0.15s;
+}
+.library__search-clear.visible {
+    display: inline-flex;
+}
+.library__search-clear:hover {
+    background: #f0f0f0;
+    color: #333;
+}
+.library__search-status {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #777;
+    min-height: 20px;
+}
+
+/* tabs hidden during search */
+.library-tabs.hidden {
+    display: none;
+}
+
+/* =========================
+   LIBRARY FILE CARD
+========================= */
+.library__file-card {
+    width: 100%;
+    padding: 16px 20px;
+    margin-bottom: 14px;
+    background: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 10px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    transition: all 0.25s ease;
+}
+.library__file-card:hover {
+    background: #f8f9fa;
+    border-color: var(--blue-main, #237AE2);
+    box-shadow: 0 6px 18px rgba(35, 122, 226, 0.10);
+    transform: translateY(-2px);
+}
+.library__file-icon {
+    width: 60px;
+    height: 60px;
+    margin-right: 18px;
+    flex-shrink: 0;
+}
+.library__file-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.library__file-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: #1c1c1c;
+    line-height: 1.4;
+}
+
+/* =========================
+   PAGINATION
+========================= */
+.library__pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    margin: 32px 0 16px;
+    flex-wrap: wrap;
+}
+.library__pagination button {
+    min-width: 40px;
+    height: 40px;
+    padding: 0 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background: #fff;
+    color: var(--grey-text, #333);
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.library__pagination button:hover:not(:disabled):not(.active) {
+    border-color: var(--blue-main, #237AE2);
+    color: var(--blue-main, #237AE2);
+    background: #f0f6ff;
+}
+.library__pagination button.active {
+    background: var(--blue-main, #237AE2);
+    border-color: var(--blue-main, #237AE2);
+    color: #fff;
+    pointer-events: none;
+}
+.library__pagination button:disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+.library__pagination .pag-arrow {
+    font-size: 18px;
+    font-weight: 700;
+}
+.library__pagination .pag-dots {
+    pointer-events: none;
+    border: none;
+    background: transparent;
+    color: #999;
+    font-size: 16px;
+    min-width: 28px;
+}
+
+/* spinner */
+.library__spinner {
+    display: flex;
+    justify-content: center;
+    padding: 48px 0;
+}
+.library__spinner::after {
+    content: '';
+    width: 36px;
+    height: 36px;
+    border: 3px solid #e0e0e0;
+    border-top-color: var(--blue-main, #237AE2);
+    border-radius: 50%;
+    animation: lib-spin 0.7s linear infinite;
+}
+@keyframes lib-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* empty */
+.library__empty {
+    text-align: center;
+    color: #999;
+    padding: 48px 0;
+    font-size: 15px;
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const tabs       = document.querySelectorAll(".library-tab");
+    const tabsWrap   = document.getElementById("libraryTabs");
+    const cardsEl    = document.getElementById("libraryCards");
+    const pagEl      = document.getElementById("libraryPagination");
+    const searchInp  = document.getElementById("librarySearch");
+    const clearBtn   = document.getElementById("searchClear");
+    const statusEl   = document.getElementById("searchStatus");
+    const API_URL    = "{% url 'web:library_tab_api' %}";
+
+    let currentTab   = {{ active_tab }};
+    let loading      = false;
+    let searchMode   = false;
+    let debounceTimer = null;
+
+    // ---- fetch ----
+    function doFetch(params, page) {
+        if (loading) return;
+        loading = true;
+
+        cardsEl.innerHTML = '<div class="library__spinner"></div>';
+        pagEl.innerHTML   = '';
+
+        const url = `${API_URL}?${params}&page=${page}`;
+        fetch(url)
+            .then(r => r.json())
+            .then(data => {
+                cardsEl.innerHTML = data.html;
+                renderPagination(data, params);
+
+                if (searchMode && data.query) {
+                    statusEl.textContent = data.total_results > 0
+                        ? `{% if request.LANGUAGE_CODE == 'ru' %}Найдено: ${data.total_results}{% elif request.LANGUAGE_CODE == 'az' %}Tapıldı: ${data.total_results}{% elif request.LANGUAGE_CODE == 'ka' %}ნაპოვნია: ${data.total_results}{% else %}Found: ${data.total_results}{% endif %}`
+                        : `{% if request.LANGUAGE_CODE == 'ru' %}Ничего не найдено{% elif request.LANGUAGE_CODE == 'az' %}Heç nə tapılmadı{% elif request.LANGUAGE_CODE == 'ka' %}ვერაფერი მოიძებნა{% else %}No results found{% endif %}`;
+                } else {
+                    statusEl.textContent = '';
+                }
+
+                loading = false;
+            })
+            .catch(() => {
+                cardsEl.innerHTML = '<div class="library__empty">Error</div>';
+                loading = false;
+            });
+    }
+
+    function loadTab(tab, page) {
+        currentTab = tab;
+        searchMode = false;
+        doFetch(`tab=${tab}`, page);
+    }
+
+    function loadSearch(query, page) {
+        searchMode = true;
+        doFetch(`q=${encodeURIComponent(query)}`, page);
+    }
+
+    // ---- pagination ----
+    function renderPagination(data, params) {
+        if (data.total_pages <= 1) { pagEl.innerHTML = ''; return; }
+
+        const cur   = data.current_page;
+        const total = data.total_pages;
+        let btns    = [];
+
+        btns.push(`<button class="pag-arrow" ${cur === 1 ? 'disabled' : ''} data-page="${cur - 1}">‹</button>`);
+
+        const pages = buildPageList(cur, total);
+        pages.forEach(p => {
+            if (p === '...') {
+                btns.push(`<button class="pag-dots" disabled>…</button>`);
+            } else {
+                btns.push(`<button ${p === cur ? 'class="active"' : ''} data-page="${p}">${p}</button>`);
+            }
+        });
+
+        btns.push(`<button class="pag-arrow" ${cur === total ? 'disabled' : ''} data-page="${cur + 1}">›</button>`);
+
+        pagEl.innerHTML = btns.join('');
+
+        pagEl.querySelectorAll("button:not(:disabled)").forEach(btn => {
+            btn.addEventListener("click", () => {
+                doFetch(params, parseInt(btn.dataset.page));
+                cardsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    }
+
+    function buildPageList(cur, total) {
+        const set = new Set([1, total]);
+        for (let i = cur - 1; i <= cur + 1; i++) {
+            if (i >= 1 && i <= total) set.add(i);
+        }
+        const sorted = [...set].sort((a, b) => a - b);
+        const result = [];
+        let prev = 0;
+        sorted.forEach(p => {
+            if (p - prev > 1) result.push('...');
+            result.push(p);
+            prev = p;
+        });
+        return result;
+    }
+
+    // ---- search input ----
+    searchInp.addEventListener("input", () => {
+        const val = searchInp.value.trim();
+        clearBtn.classList.toggle("visible", val.length > 0);
+
+        clearTimeout(debounceTimer);
+
+        if (val.length === 0) {
+            // Exit search mode, back to tabs
+            searchMode = false;
+            tabsWrap.classList.remove("hidden");
+            statusEl.textContent = '';
+            loadTab(currentTab, 1);
+            return;
+        }
+
+        if (val.length < 2) return;
+
+        // Hide tabs during search
+        tabsWrap.classList.add("hidden");
+
+        debounceTimer = setTimeout(() => {
+            loadSearch(val, 1);
+        }, 350);
+    });
+
+    clearBtn.addEventListener("click", () => {
+        searchInp.value = '';
+        clearBtn.classList.remove("visible");
+        searchMode = false;
+        tabsWrap.classList.remove("hidden");
+        statusEl.textContent = '';
+        loadTab(currentTab, 1);
+        searchInp.focus();
+    });
+
+    // ---- tab clicks ----
+    tabs.forEach(tab => {
+        tab.addEventListener("click", () => {
+            const idx = parseInt(tab.dataset.tab);
+            tabs.forEach(t => t.classList.remove("active"));
+            tab.classList.add("active");
+            searchInp.value = '';
+            clearBtn.classList.remove("visible");
+            searchMode = false;
+            statusEl.textContent = '';
+            loadTab(idx, 1);
+        });
+    });
+
+    // ---- initial pagination ----
+    fetch(`${API_URL}?tab=${currentTab}&page=1`)
+        .then(r => r.json())
+        .then(data => renderPagination(data, `tab=${currentTab}`));
+});
+</script>
+{% endblock %}

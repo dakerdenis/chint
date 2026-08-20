@@ -1,0 +1,261 @@
+{% extends "base.html" %} {% load static site_text %} {% block title %}{{ category_name }} — Chint{% endblock %}
+{% block page_css %}
+<link rel="stylesheet" href="{% static 'css/pages/catalog-category.css' %}" />
+{% endblock %} {% block content %}
+<section class="catalog-category-page">
+  <div class="category__wrapper">
+    <div class="category-name">{{ category_name }}</div>
+    {% if breadcrumbs %}
+    <div class="category-breadcrumbs">
+      {% for cat in breadcrumbs %}
+      {% if not forloop.first %} / {% endif %}
+      <a href="{% url 'web:catalog_category' category_slug=cat.id %}">
+        {{ cat.translated_name }}
+      </a>
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% if subcategories %}
+    <div class="subcategory__elements__wrapper">
+      {% for sub in subcategories %}
+      <a href="{% url 'web:catalog_subcategory' category_slug=category.id sub_slug=sub.id %}"
+        class="subcategory__element">
+        <div class="subcategory__element-image">
+          <img
+            src="{% if sub.image %}{{ sub.image.url }}{% else %}https://chint.ru/local/templates/chint/img/chip_small.png{% endif %}" />
+        </div>
+
+        <div class="subcategory__element-text">{% if request.LANGUAGE_CODE == "en" and sub.name_en %}
+          {{ sub.name_en }}
+          {% elif request.LANGUAGE_CODE == "az" and sub.name_az %}
+          {{ sub.name_az }}
+          {% elif request.LANGUAGE_CODE == "ka" and sub.name_ka %}
+          {{ sub.name_ka }}
+          {% else %}
+          {{ sub.name }}
+          {% endif %}
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="catalog-layout">
+      <!-- FILTERS -->
+      <aside id="filters-block" class="catalog-filters">
+        <!-- сюда JS вставит фильтр -->
+      </aside>
+
+      <!-- PRODUCTS -->
+      <div id="products-block" data-category="{{ category.id }}" class="subcategory__goods">
+        <div id="products-loader">{{ "catalog.loading"|t:request|default:"Загрузка товаров…" }}</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const productsBlock = document.getElementById("products-block");
+    const filtersBlock = document.getElementById("filters-block");
+    const categoryId = productsBlock.dataset.category;
+
+    let currentPage = 1;
+    let expandedGroups = new Set();    // какие группы раскрыты
+    let selectedKeys = new Set();      // уникальные ключи выбранных чекбоксов
+
+    function getActiveFilters() {
+      const params = new URLSearchParams();
+      selectedKeys.forEach(key => {
+        const [pid, , value] = key.split("::");
+        params.append(`prop_${pid}`, value);
+      });
+      return params.toString();
+    }
+
+    function loadProducts(params = "") {
+      const lang = window.location.pathname.split("/")[1];
+      const url = `/${lang}/catalog-products/${categoryId}/?page=${currentPage}&${params}`;
+
+      fetch(url)
+        .then(r => r.json())
+        .then(data => {
+          renderProducts(data);
+          renderPagination(data);
+          if (data.facets) {
+            renderFilters(data.facets);
+          }
+        });
+    }
+
+    function renderProducts(data) {
+      if (!data.results || !data.results.length) {
+        productsBlock.innerHTML = "<div>Товаров нет</div>";
+        return;
+      }
+      const lang = window.location.pathname.split("/")[1];
+
+      let skuLabel = "Артикул";
+      if (lang === "en") skuLabel = "Article";
+      if (lang === "az") skuLabel = "Məhsul kodu";
+      if (lang === "ka") skuLabel = "სტატია";
+
+      let foundLabel = "Найдено";
+      if (lang === "en") foundLabel = "Found";
+      if (lang === "az") foundLabel = "Tapıldı";
+      if (lang === "ka") foundLabel = "ნაპოვნია";
+
+      productsBlock.innerHTML = `
+        <div class="category-goods-meta">${foundLabel}: ${data.count}</div><br>
+        <div class="category-goods-grid">
+          ${data.results.map(p => `
+            <a href="/${lang}/product/${p.id}/" class="product-card">
+              <div class="product-img product-img--compact">
+                ${p.picture ? `<img src="${p.picture}">` : ""}
+              </div>
+              <div class="product-body">
+                <div class="product-title">${p.name}</div>
+                <div class="product-sku">${skuLabel}: ${p.vendor_code}</div>
+              </div>
+            </a>
+          `).join("")}
+        </div>
+        <div id="pagination-holder"></div>
+      `;
+    }
+
+    function renderPagination(data) {
+      const holder = document.getElementById("pagination-holder");
+      if (!holder) return;
+
+      const total = data.num_pages;
+      if (total <= 1) { holder.innerHTML = ""; return; }
+
+      const pages = new Set();
+      pages.add(1);
+      pages.add(2);
+      for (let i = currentPage - 2; i <= currentPage + 2; i++) {
+        if (i > 0 && i <= total) pages.add(i);
+      }
+      pages.add(total - 1);
+      pages.add(total);
+
+      const sorted = [...pages].filter(p => p >= 1 && p <= total).sort((a, b) => a - b);
+
+      let html = `<div class="pagination">`;
+      if (currentPage > 1) html += `<button data-page="${currentPage - 1}">‹</button>`;
+
+      let last = null;
+      sorted.forEach(p => {
+        if (last && p - last > 1) html += `<span class="pagination-dots">…</span>`;
+        html += `<button data-page="${p}" class="${p === currentPage ? "active" : ""}">${p}</button>`;
+        last = p;
+      });
+
+      if (currentPage < total) html += `<button data-page="${currentPage + 1}">›</button>`;
+      html += `</div>`;
+      holder.innerHTML = html;
+
+      holder.querySelectorAll("button").forEach(btn => {
+        btn.addEventListener("click", () => {
+          currentPage = parseInt(btn.dataset.page, 10);
+          loadProducts(getActiveFilters());
+        });
+      });
+    }
+
+    function renderFilters(facets) {
+      if (!facets) return;
+
+      let html = "";
+
+      Object.entries(facets).forEach(([pid, facet]) => {
+        const isOpen = expandedGroups.has(pid);
+
+        html += `<div class="filter-group" data-gid="${pid}">
+          <div class="filter-title">${facet.name}</div>
+          <div class="filter-options">`;
+
+        facet.values.forEach((v, idx) => {
+          const displayLabel = v.label || v.value;
+          const filterValue = v.value;
+          const uniqueKey = `${pid}::${idx}::${filterValue}`;
+          const checked = selectedKeys.has(uniqueKey) ? "checked" : "";
+
+          const hiddenClass = (!isOpen && idx >= 3) ? "hidden" : "";
+
+          html += `
+            <label class="filter-option ${hiddenClass}">
+              <input type="checkbox"
+                     data-key="${uniqueKey}"
+                     data-prop="${pid}"
+                     value="${filterValue}"
+                     ${checked}>
+              <span>${displayLabel}</span>
+              <span class="filter-count">(${v.count})</span>
+            </label>`;
+        });
+
+        html += `</div>`;
+
+        if (facet.values.length > 3) {
+          const toggleLabel = isOpen ? "Скрыть" : "Показать ещё";
+          const arrowClass = isOpen ? "open" : "";
+          html += `
+            <div class="filter-toggle" data-gid="${pid}">
+              ${toggleLabel} <span class="arrow ${arrowClass}"></span>
+            </div>`;
+        }
+
+        html += `</div>`;
+      });
+
+      filtersBlock.innerHTML = html;
+
+      // Обработчик чекбоксов
+      filtersBlock.querySelectorAll("input[type=checkbox]").forEach(cb => {
+        cb.addEventListener("change", (e) => {
+          e.stopPropagation();
+          const key = cb.dataset.key;
+          if (cb.checked) {
+            selectedKeys.add(key);
+          } else {
+            selectedKeys.delete(key);
+          }
+          currentPage = 1;
+          loadProducts(getActiveFilters());
+        });
+      });
+
+      // Обработчик «Показать ещё / Скрыть»
+      filtersBlock.querySelectorAll(".filter-toggle").forEach(toggle => {
+        toggle.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const gid = toggle.dataset.gid;
+          const group = filtersBlock.querySelector(`.filter-group[data-gid="${gid}"]`);
+          if (!group) return;
+
+          const isOpen = expandedGroups.has(gid);
+          const items = group.querySelectorAll(".filter-option");
+
+          if (isOpen) {
+            // Сворачиваем
+            expandedGroups.delete(gid);
+            items.forEach((el, i) => { if (i >= 3) el.classList.add("hidden"); });
+            toggle.innerHTML = `Показать ещё <span class="arrow"></span>`;
+          } else {
+            // Раскрываем
+            expandedGroups.add(gid);
+            items.forEach(el => el.classList.remove("hidden"));
+            toggle.innerHTML = `Скрыть <span class="arrow open"></span>`;
+          }
+        });
+      });
+    }
+
+    loadProducts();
+  });
+</script>
+
+
+{% endblock %}

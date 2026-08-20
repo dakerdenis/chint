@@ -1,0 +1,94 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <style>
+    /* делаем блок языков справа в шапке админки */
+    .admin-lang {
+      display: inline-block;
+      margin-right: 12px;
+      position: relative;
+    }
+    .admin-lang__btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 8px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      background: transparent;
+      color: var(--body-fg);
+      cursor: pointer;
+      font-size: 12px;
+      line-height: 1;
+    }
+    .admin-lang__menu {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: calc(100% + 6px);
+      min-width: 70px;
+      background: var(--body-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 8px 25px rgba(0,0,0,.15);
+      z-index: 9999;
+    }
+    .admin-lang:hover .admin-lang__menu { display: block; }
+    .admin-lang__item {
+      display: block;
+      padding: 8px 10px;
+      text-decoration: none;
+      color: var(--body-fg);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+    .admin-lang__item:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+    .admin-lang__item.is-active {
+      font-weight: 700;
+      opacity: .95;
+    }
+
+    /* usertools в админке уже справа, просто делаем красиво */
+    #user-tools { display: flex; align-items: center; gap: 8px; }
+  </style>
+{% endblock %}
+
+{% block usertools %}
+  <div class="admin-lang">
+    <button class="admin-lang__btn" type="button" aria-haspopup="true" aria-expanded="false">
+      {{ request.LANGUAGE_CODE|upper }}
+      <span style="opacity:.7;">▾</span>
+    </button>
+
+    <div class="admin-lang__menu" role="menu" aria-label="Language">
+      {% language 'en' %}
+        <a class="admin-lang__item{% if request.LANGUAGE_CODE == 'en' %} is-active{% endif %}"
+           href="/en{{ request.path|slice:'3:' }}">EN</a>
+      {% endlanguage %}
+      {% language 'ru' %}
+        <a class="admin-lang__item{% if request.LANGUAGE_CODE == 'ru' %} is-active{% endif %}"
+           href="/ru{{ request.path|slice:'3:' }}">RU</a>
+      {% endlanguage %}
+      {% language 'az' %}
+        <a class="admin-lang__item{% if request.LANGUAGE_CODE == 'az' %} is-active{% endif %}"
+           href="/az{{ request.path|slice:'3:' }}">AZ</a>
+      {% endlanguage %}
+      {% language 'ka' %}
+        <a class="admin-lang__item{% if request.LANGUAGE_CODE == 'ka' %} is-active{% endif %}"
+           href="/ka{{ request.path|slice:'3:' }}">KA</a>
+      {% endlanguage %}
+    </div>
+  </div>
+
+  {{ block.super }}
+{% endblock %}
+
+{% block branding %}
+  <h1 id="site-name"><a href="{% url 'admin:index' %}">CHINT Admin</a></h1>
+{% endblock %}

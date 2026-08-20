@@ -1,0 +1,38 @@
+<div class="subcategory__goods">
+
+  <div class="category-goods-meta">
+    Найдено: {{ page_obj.paginator.count }}
+  </div>
+
+  <div class="category-goods-grid">
+    {% for p in page_obj.object_list %}
+      <a href="{% url 'web:product_detail' product_id=p.id %}" class="product-card">
+
+        <div class="product-img product-img--compact">
+          {% if p.picture %}
+            <img src="{{ p.picture }}">
+          {% endif %}
+        </div>
+
+        <div class="product-body">
+          <div class="product-title">{{ p.short_name|default:p.name }}</div>
+          <div class="product-sku">Артикул: {{ p.vendor_code }}</div>
+        </div>
+
+      </a>
+    {% endfor %}
+  </div>
+
+  {% if page_obj.paginator.num_pages > 1 %}
+  <nav class="pagination">
+    {% if page_obj.has_previous %}
+      <a href="?page={{ page_obj.previous_page_number }}">‹</a>
+    {% endif %}
+    <span>{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}">›</a>
+    {% endif %}
+  </nav>
+  {% endif %}
+
+</div>

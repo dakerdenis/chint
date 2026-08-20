@@ -1,0 +1,54 @@
+{# templates/includes/contact-form.html #}
+{% load static i18n site_text %}
+<div class="contact__form-block">
+  <div class="contact__form-container">
+    <div class="contact__form-desc">
+      {{ "site.form.desc"|t:request }}
+    </div>
+
+    <form class="contact__form-form"
+          method="post"
+          action="{% url 'web:contact_form_submit' %}"
+          data-form="contact">
+
+      {% csrf_token %}
+
+      <div class="contact__form-name">
+        <label>{{ "site.form.name"|t:request }}</label>
+        <input name="name" type="text" required>
+      </div>
+
+      <div class="contact__form-numberemail">
+        <div class="contact__form-number">
+          <label>{{ "site.form.phone"|t:request }}</label>
+          <input name="phone" type="tel" required>
+        </div>
+
+        <div class="contact__form-email">
+          <label>{{ "site.form.email"|t:request }}</label>
+          <input name="email" type="email" required>
+        </div>
+      </div>
+
+      <div class="contact__form-message">
+        <label>{{ "site.form.message"|t:request }}</label>
+        <textarea name="message" required></textarea>
+      </div>
+
+      <div class="contact__form-checkbox">
+        <label>
+          <input type="checkbox" name="terms" required>
+          {{ "site.form.terms"|t:request }}
+        </label>
+      </div>
+
+      <div class="contact__form-submit">
+        <button type="submit">
+          {{ "site.form.button"|t:request }}
+        </button>
+      </div>
+
+      <div class="contact__form-result" hidden></div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load static site_text %}
+{% block title %}Catalog — Chint{% endblock %}
+{% block page_css %}
+<link rel="stylesheet" href="{% static 'css/pages/catalog.css' %}">
+{% endblock %}
+{% block content %}
+<section class="catalog-page">
+  <div class="catalog__wrapper">
+    <div class="catalog-name">
+      <p>{{ "catalog.title"|t:request|default:"Продукция" }}</p>
+    </div>
+    <div class="catalog__main__category1">
+      <div class="catalog__main__category-name">
+        <p>{{ root_name|default:root.name }}</p>
+      </div>
+      <div class="catalog__main__category-wrapper">
+        {% for cat in level1 %}
+        <div class="sub_category-element">
+          <div class="sub_category-image">
+            <img
+              src="{% if cat.image %}{{ cat.image.url }}{% else %}https://chint.ru/local/templates/chint/img/chip_small.png{% endif %}"
+              alt="">
+          </div>
+          <div class="sub_category-name_list">
+            <div class="sub_category-name">
+              <a href="{% url 'web:catalog_category' category_slug=cat.id %}">
+                {% if request.LANGUAGE_CODE == "en" and cat.name_en %}
+                {{ cat.name_en }}
+                {% elif request.LANGUAGE_CODE == "az" and cat.name_az %}
+                {{ cat.name_az }}
+                {% elif request.LANGUAGE_CODE == "ka" and cat.name_ka %}
+                {{ cat.name_ka }}
+                {% else %}
+                {{ cat.name }}
+                {% endif %}
+              </a>
+            </div>
+            {% if cat.children.all %}
+            <div class="sub_category-children">
+              {% for sub in cat.children.all %}
+              <a href="{% url 'web:catalog_subcategory' category_slug=cat.id sub_slug=sub.id %}">
+                {% if request.LANGUAGE_CODE == "en" and sub.name_en %}
+                {{ sub.name_en }}
+                {% elif request.LANGUAGE_CODE == "az" and sub.name_az %}
+                {{ sub.name_az }}
+                {% elif request.LANGUAGE_CODE == "ka" and sub.name_ka %}
+                {{ sub.name_ka }}
+                {% else %}
+                {{ sub.name }}
+                {% endif %}
+              </a>
+              {% endfor %}
+            </div>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

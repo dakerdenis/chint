@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load static site_text %}
+
+{% block title %}All Goods — Chint{% endblock %}
+
+{% block page_css %}
+<link rel="stylesheet" href="{% static 'css/pages/all-goods.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="catalog-page">
+
+  <form class="catalog-toolbar" method="get" action="">
+    <input name="q" value="{{ q }}" placeholder="Поиск: артикул или название" />
+    <button type="submit">Найти</button>
+    {% if q %}
+    <a class="reset-link" href="?">Сброс</a>
+    {% endif %}
+
+    <select name="group">
+      <option value="">Все категории</option>
+      {% for g in groups %}
+      <option value="{{ g.group_id }}" {% if group == g.group_id %}selected{% endif %}>
+        {{ g.name_ru }}
+      </option>
+      {% endfor %}
+    </select>
+
+  </form>
+
+  <div class="catalog-meta">
+    Найдено: {{ page_obj.paginator.count }} |
+    Страница: {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+  </div>
+
+  <div class="catalog-grid">
+    {% for p in page_obj.object_list %}
+    <article class="product-card">
+      <div class="product-img">
+        {% if p.picture_url %}
+        <img src="{{ p.picture_url }}" alt="{{ p.name_short_ru|default:p.name_full_ru }}">
+        {% else %}
+        <div class="img-placeholder">No image</div>
+        {% endif %}
+      </div>
+
+      <div class="product-body">
+        <div class="product-title">{{ p.name_short_ru|default:p.name_full_ru }}</div>
+        <div class="product-sku">Артикул: {{ p.vendor_code }}</div>
+      </div>
+    </article>
+    {% empty %}
+    <div class="empty">Пусто</div>
+    {% endfor %}
+  </div>
+
+  {% if page_obj.paginator.num_pages > 1 %}
+  <nav class="pagination">
+    {% if page_obj.has_previous %}
+    <a class="page" href="?q={{ q|urlencode }}&group={{ group|urlencode }}&page=1">«</a>
+    <a class="page"
+      href="?q={{ q|urlencode }}&group={{ group|urlencode }}&page={{ page_obj.previous_page_number }}">‹</a>
+    {% else %}
+    <span class="page disabled">«</span>
+    <span class="page disabled">‹</span>
+    {% endif %}
+
+    <span class="page current">
+      {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+    </span>
+
+    {% if page_obj.has_next %}
+    <a class="page" href="?q={{ q|urlencode }}&group={{ group|urlencode }}&page={{ page_obj.next_page_number }}">›</a>
+    <a class="page"
+      href="?q={{ q|urlencode }}&group={{ group|urlencode }}&page={{ page_obj.paginator.num_pages }}">»</a>
+    {% else %}
+    <span class="page disabled">›</span>
+    <span class="page disabled">»</span>
+    {% endif %}
+  </nav>
+  {% endif %}
+
+</section>
+{% endblock %}

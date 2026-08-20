@@ -1,0 +1,294 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+{% if request.LANGUAGE_CODE == "en" and product.short_name_en %}
+{{ product.short_name_en }}
+{% elif request.LANGUAGE_CODE == "az" and product.short_name_az %}
+{{ product.short_name_az }}
+{% elif request.LANGUAGE_CODE == "ka" and product.short_name_ka %}
+{{ product.short_name_ka }}
+{% else %}
+{{ product.short_name|default:product.name }}
+{% endif %}
+— Chint
+{% endblock %}
+
+{% block page_css %}
+<link rel="stylesheet" href="{% static 'css/pages/product-detail.css' %}">
+{% endblock %}
+
+
+{% block content %}
+<section class="product-detail-page">
+  <div class="container" style="max-width:1400px">
+
+    {% if breadcrumbs %}
+    <div style="margin-bottom:20px; font-size:14px; color:#777;">
+
+      {% for cat in breadcrumbs %}
+      {% if not forloop.first %}&nbsp;/&nbsp;{% endif %}
+      <a href="{% url 'web:catalog_category' category_slug=cat.id %}" style="color:#777;">
+        {{ cat.translated_name }}
+      </a>
+      {% endfor %}
+
+      &nbsp;/&nbsp;
+      <span style="color:#444;">
+        {% if request.LANGUAGE_CODE == "en" and product.short_name_en %}
+        {{ product.short_name_en }}
+        {% elif request.LANGUAGE_CODE == "az" and product.short_name_az %}
+        {{ product.short_name_az }}
+        {% elif request.LANGUAGE_CODE == "ka" and product.short_name_ka %}
+        {{ product.short_name_ka }}
+        {% else %}
+        {{ product.short_name|default:product.name }}
+        {% endif %}
+      </span>
+
+    </div>
+    {% endif %}
+
+
+
+
+
+
+    <div style="display:flex; gap:40px; align-items:flex-start;">
+      <!-- IMAGE -->
+      <div style="width:300px;">
+{% if product.picture %}
+<img 
+  src="{{ product.picture }}" 
+  class="pd-image-preview"
+  style="width:100%; object-fit:contain; border:1px solid #ddd; cursor:zoom-in;"
+>
+{% endif %}
+      </div>
+      <!-- INFO -->
+      <div style="flex:1;">
+        <h1>
+          {% if request.LANGUAGE_CODE == "en" and product.full_name_en %}
+          {{ product.full_name_en }}
+          {% elif request.LANGUAGE_CODE == "az" and product.full_name_az %}
+          {{ product.full_name_az }}
+          {% elif request.LANGUAGE_CODE == "ka" and product.full_name_ka %}
+          {{ product.full_name_ka }}
+          {% else %}
+          {{ product.full_name|default:product.name }}
+          {% endif %}
+        </h1> <br>
+        <p><b>
+            {% if request.LANGUAGE_CODE == "en" %}Article
+            {% elif request.LANGUAGE_CODE == "az" %}Məhsul kodu
+            {% elif request.LANGUAGE_CODE == "ka" %}სტატია
+            {% else %}Артикул
+            {% endif %}:
+          </b>
+          {{ product.vendor_code }}</p> <br>
+
+        {% if product.status_article %}
+        {% endif %}
+
+        {% if product.etim %}
+        <p><b>ETIM:</b> {{ product.etim }}</p> <br>
+        {% endif %}
+      </div>
+    </div>
+
+
+
+
+
+    <hr style="margin:40px 0;">
+
+    <div class="pd-tabs" data-tabs="product">
+      <div class="pd-tabs__nav" role="tablist" aria-label="Product tabs">
+        <button class="pd-tabs__btn is-active" type="button" role="tab" aria-selected="true" aria-controls="tab-specs"
+          id="tab-specs-btn">
+          {% if request.LANGUAGE_CODE == "en" %}Specifications
+          {% elif request.LANGUAGE_CODE == "az" %}Xüsusiyyətlər
+          {% elif request.LANGUAGE_CODE == "ka" %}მახასიათებლები
+          {% else %}Характеристики
+          {% endif %}
+        </button>
+
+        <button class="pd-tabs__btn" type="button" role="tab" aria-selected="false" aria-controls="tab-docs"
+          id="tab-docs-btn">
+          {% if request.LANGUAGE_CODE == "en" %}Documents
+          {% elif request.LANGUAGE_CODE == "az" %}Sənədlər
+          {% elif request.LANGUAGE_CODE == "ka" %}დოკუმენტები
+          {% else %}Документы
+          {% endif %}
+        </button>
+      </div>
+
+      <div class="pd-tabs__content">
+        <!-- TAB: SPECS -->
+        <div class="pd-tabs__panel is-active" role="tabpanel" id="tab-specs" aria-labelledby="tab-specs-btn">
+          {% if properties %}
+          <table class="pd-specs-table">
+            <thead>
+              <tr>
+                <th>
+                  {% if request.LANGUAGE_CODE == "en" %}Parameter
+                  {% elif request.LANGUAGE_CODE == "az" %}Parametr
+                  {% elif request.LANGUAGE_CODE == "ka" %}პარამეტრი
+                  {% else %}Параметр
+                  {% endif %}
+                </th>
+
+                <th>
+                  {% if request.LANGUAGE_CODE == "en" %}Value
+                  {% elif request.LANGUAGE_CODE == "az" %}Dəyər
+                  {% elif request.LANGUAGE_CODE == "ka" %}მნიშვნელობა
+                  {% else %}Значение
+                  {% endif %}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for p in properties %}
+              <tr>
+                <td>{{ p.name }}</td>
+                <td>{{ p.value }}{% if p.unit %} ({{ p.unit }}){% endif %}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          {% else %}
+          <div class="pd-empty">
+            {% if request.LANGUAGE_CODE == "en" %}No specifications.
+            {% elif request.LANGUAGE_CODE == "az" %}Xüsusiyyət tapılmadı.
+            {% elif request.LANGUAGE_CODE == "ka" %}მახასიათებლები ვერ მოიძებნა.
+            {% else %}Характеристики отсутствуют.
+            {% endif %}
+          </div>
+          {% endif %}
+        </div>
+
+        <!-- TAB: DOCS -->
+        <!-- TAB: DOCS -->
+        <div class="pd-tabs__panel" role="tabpanel" id="tab-docs" aria-labelledby="tab-docs-btn" hidden>
+
+          {% if documents %}
+          <div class="pd-docs">
+            {% for doc in documents %}
+            <a class="pd-docs__link" href="{{ doc.url }}" target="_blank" rel="noopener">
+              {{ doc.title }}
+            </a>
+            {% endfor %}
+          </div>
+
+          {% elif product.certificate %}
+          {# legacy fallback #}
+          <div class="pd-docs">
+            <a class="pd-docs__link" href="{{ product.certificate.url }}" target="_blank" rel="noopener">
+              {% if request.LANGUAGE_CODE == "en" %}Open document
+              {% elif request.LANGUAGE_CODE == "az" %}Sənədi aç
+              {% elif request.LANGUAGE_CODE == "ka" %}დოკუმენტის გახსნა
+              {% else %}Открыть документ
+              {% endif %}
+            </a>
+          </div>
+
+          {% else %}
+          <div class="pd-empty">
+            {% if request.LANGUAGE_CODE == "en" %}No documents.
+            {% elif request.LANGUAGE_CODE == "az" %}Sənəd yoxdur.
+            {% elif request.LANGUAGE_CODE == "ka" %}დოკუმენტები არ არის.
+            {% else %}Документы отсутствуют.
+            {% endif %}
+          </div>
+          {% endif %}
+        </div>
+
+        {# задел под 3ю вкладку: panel #}
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        var root = document.querySelector('.pd-tabs[data-tabs="product"]');
+        if (!root) return;
+
+        var buttons = root.querySelectorAll('.pd-tabs__btn[role="tab"]');
+        var panels = root.querySelectorAll('.pd-tabs__panel[role="tabpanel"]');
+
+        function activate(btn) {
+          buttons.forEach(function (b) {
+            var active = b === btn;
+            b.classList.toggle('is-active', active);
+            b.setAttribute('aria-selected', active ? 'true' : 'false');
+          });
+
+          panels.forEach(function (p) {
+            var isTarget = p.id === btn.getAttribute('aria-controls');
+            p.classList.toggle('is-active', isTarget);
+            if (isTarget) {
+              p.removeAttribute('hidden');
+            } else {
+              p.setAttribute('hidden', '');
+            }
+          });
+        }
+
+        buttons.forEach(function (btn) {
+          btn.addEventListener('click', function () { activate(btn); });
+        });
+
+        // keyboard nav
+        root.querySelector('.pd-tabs__nav').addEventListener('keydown', function (e) {
+          if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+          var list = Array.prototype.slice.call(buttons);
+          var idx = list.indexOf(document.activeElement);
+          if (idx < 0) return;
+          e.preventDefault();
+          var next = e.key === 'ArrowRight' ? idx + 1 : idx - 1;
+          if (next < 0) next = list.length - 1;
+          if (next >= list.length) next = 0;
+          list[next].focus();
+          activate(list[next]);
+        });
+      })();
+    </script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+
+  var preview = document.querySelector('.pd-image-preview');
+  var lightbox = document.getElementById('pd-lightbox');
+  var lightboxImg = document.getElementById('pd-lightbox-img');
+  var closeBtn = document.querySelector('.pd-lightbox__close');
+  var overlay = document.querySelector('.pd-lightbox__overlay');
+
+  if (!preview || !lightbox || !lightboxImg) return;
+
+  preview.addEventListener('click', function() {
+    lightboxImg.src = preview.src;
+    lightbox.removeAttribute('hidden');
+    document.body.style.overflow = 'hidden';
+  });
+
+  function closeLightbox() {
+    lightbox.setAttribute('hidden', '');
+    lightboxImg.src = '';
+    document.body.style.overflow = '';
+  }
+
+  if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
+  if (overlay) overlay.addEventListener('click', closeLightbox);
+
+});
+</script>
+  </div>
+  <!-- LIGHTBOX -->
+<div id="pd-lightbox" class="pd-lightbox" hidden>
+  <div class="pd-lightbox__overlay"></div>
+
+  <div class="pd-lightbox__content">
+    <button class="pd-lightbox__close">&times;</button>
+    <img id="pd-lightbox-img" src="">
+  </div>
+</div>
+</section>
+{% endblock %}

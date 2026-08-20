@@ -1,0 +1,319 @@
+{% load static i18n site_text %}
+
+<!doctype html>
+<html lang="{{ request.LANGUAGE_CODE }}">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% block title %} CHINT Caucasus — Official Regional Representative {% endblock %}</title>
+
+  <meta name="description"
+    content="CHINT Caucasus is the official regional sales department of CHINT Global in the Caucasus region. We provide intelligent power generation, distribution, industrial automation and smart energy solutions across the region.">
+
+  <meta name="keywords"
+    content="CHINT Caucasus, CHINT official distributor, electrical equipment Caucasus, power distribution solutions, smart energy systems, industrial automation, CHINT Georgia, CHINT Azerbaijan, CHINT Armenia">
+
+  <meta name="author" content="CHINT Caucasus">
+  <meta name="robots" content="index, follow">
+  <meta name="googlebot" content="index, follow">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://chintcaucasus.com/">
+  <meta property="og:title" content="CHINT Caucasus — Official Regional Representative">
+  <meta property="og:description"
+    content="Official regional representative of CHINT Global in the Caucasus region. Intelligent electrical solutions for energy generation, storage, transmission and distribution.">
+  <meta property="og:image" content="https://chintcaucasus.com/static/img/logo.svg">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CHINT Caucasus — Official Regional Representative">
+  <meta name="twitter:description"
+    content="Official CHINT representative in the Caucasus region. Power distribution, industrial automation and smart energy solutions.">
+
+  <link rel="canonical" href="https://chintcaucasus.com{{ request.path }}">
+
+  <link rel="icon" href="https://chint.ru/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="{% static 'css/fonts.css' %}">
+  <link rel="stylesheet" href="{% static 'css/lang.css' %}">
+  <link rel="stylesheet" href="{% static 'css/app.css' %}">
+  {% block page_css %}{% endblock %}
+  {% block head %}{% endblock %}
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "CHINT Caucasus",
+  "url": "https://chintcaucasus.com",
+  "logo": "https://chintcaucasus.com/static/img/logo.svg",
+  "description": "Regional sales department of CHINT Global in the Caucasus region providing intelligent electrical and energy solutions.",
+  "parentOrganization": {
+    "@type": "Organization",
+    "name": "CHINT Global",
+    "foundingDate": "1984",
+    "numberOfEmployees": "30000+",
+    "areaServed": "Worldwide"
+  },
+  "areaServed": {
+    "@type": "Place",
+    "name": "Caucasus Region"
+  }
+}
+</script>
+</head>
+
+<body>
+  <div class="main__container">
+    <header class="site_header" id="siteHeader">
+      <div class="header_container">
+        {# HEADER LOGO #}
+        <a href="{% url 'web:home' %}" class="header__logo">
+          <img src="{% static 'img/logo.svg' %}" alt="Chint Logo">
+        </a>
+        <div class="header__image-5years">
+          <img src="{% static 'img/5years.png' %}" alt="Chint 5 Years">
+        </div>
+        <button class="burger" id="burgerBtn" aria-label="Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        {# HEADER navigation #}
+        <div class="header__navigation">
+          <a class="nav-btn hover-border-7" href="{% url 'web:catalog' %}">
+            <span>{{ "nav.catalog"|t:request }}</span>
+          </a>
+          <!-----
+          <a class="nav-btn hover-border-7" href="{% url 'web:all_goods' %}">
+            <span>{{ "nav.all_goods"|t:request }}</span>
+          </a> -->
+          <a class="nav-btn hover-border-7" href="{% url 'web:about' %}">
+            <span>{{ "nav.about"|t:request }}</span>
+          </a>
+          <a class="nav-btn hover-border-7" href="{% url 'web:news' %}">
+            <span>{{ "nav.news"|t:request }}</span>
+          </a>
+          <a class="nav-btn hover-border-7" href="{% url 'web:where_buy' %}">
+            <span>{{ "nav.where_buy"|t:request }}</span>
+          </a>
+          <a class="nav-btn hover-border-7" href="{% url 'web:contacts' %}">
+            <span>{{ "nav.contacts"|t:request }}</span>
+          </a>
+          <a class="nav-btn hover-border-7" href="#">
+            <span>{{ "nav.pricelist"|t:request }}</span>
+          </a>
+          <a class="nav-btn hover-border-7" href="{% url 'web:library' %}">
+            <span>{{ "nav.library"|t:request }}</span>
+          </a>
+        </div>
+        {# HEADER search #}
+        <div class="header__search" id="desktopSearch">
+          <button class="search-toggle" aria-label="Search">
+            <!-- OPEN ICON -->
+            <svg class="icon-open" width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M10.875 18.75C15.2242 18.75 18.75 15.2242 18.75 10.875 18.75 6.5258 15.2242 3 10.875 3 6.5258 3 3 6.5258 3 10.875 3 15.2242 6.5258 18.75 10.875 18.75ZM16.4434 16.4438 20.9997 21.0002"
+                stroke="#4F4F4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+
+            <!-- CLOSE ICON -->
+            <svg class="icon-close" width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M18 6 6 18M18 18 6 6" stroke="#4F4F4F" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round"></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- SEARCH PANEL -->
+        <div class="search-panel" id="searchPanel">
+          <div class="search-panel__inner">
+            <form method="get" action="{% url 'web:search' %}">
+              <input type="text" name="q" required placeholder="{{ "nav.search.desc"|t:request }}"
+                value="{{ request.GET.q }}">
+              <button type="submit">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M10.875 18.75C15.2242 18.75 18.75 15.2242 18.75 10.875 18.75 6.5258 15.2242 3 10.875 3 6.5258 3 3 6.5258 3 10.875 3 15.2242 6.5258 18.75 10.875 18.75ZM16.4434 16.4438 20.9997 21.0002"
+                    stroke="#4F4F4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+              </button>
+            </form>
+          </div>
+        </div>
+
+        {# HEADER LANGUAGE #}
+        <div class="header__language" id="lang">
+          <button type="button" class="lang-btn" aria-haspopup="true" aria-expanded="false">
+            <span class="lang-code">{{ request.LANGUAGE_CODE|upper }}</span>
+            <p class="lang-arrow">&#9660;</p>
+          </button>
+          <div class="lang-menu" role="menu" aria-label="Language">
+            {% language 'en' %}<a role="menuitem" href="/en{{ request.path|slice:'3:' }}"
+              class="lang-item{% if request.LANGUAGE_CODE == 'en' %} is-active{% endif %}">EN</a>{% endlanguage %}
+            {% language 'ru' %}<a role="menuitem" href="/ru{{ request.path|slice:'3:' }}"
+              class="lang-item{% if request.LANGUAGE_CODE == 'ru' %} is-active{% endif %}">RU</a>{% endlanguage %}
+            {% language 'az' %}<a role="menuitem" href="/az{{ request.path|slice:'3:' }}"
+              class="lang-item{% if request.LANGUAGE_CODE == 'az' %} is-active{% endif %}">AZ</a>{% endlanguage %}
+            {% language 'ka' %}<a role="menuitem" href="/ka{{ request.path|slice:'3:' }}"
+              class="lang-item{% if request.LANGUAGE_CODE == 'ka' %} is-active{% endif %}">KA</a>{% endlanguage %}
+          </div>
+        </div>
+        <!--div class="header__button">
+          header кнопка
+        </div-->
+      </div>
+      <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-lang">
+          {% language 'en' %}<a href="/en{{ request.path|slice:'3:' }}">EN</a>{% endlanguage %}
+          {% language 'ru' %}<a href="/ru{{ request.path|slice:'3:' }}">RU</a>{% endlanguage %}
+          {% language 'az' %}<a href="/az{{ request.path|slice:'3:' }}">AZ</a>{% endlanguage %}
+          {% language 'ka' %}<a href="/ka{{ request.path|slice:'3:' }}">KA</a>{% endlanguage %}
+        </div>
+        <div class="mobile-search">
+          <form method="get" action="{% url 'web:search' %}">
+            <input type="text" name="q" required placeholder="{{ 'nav.search.desc'|t:request }}"
+              value="{{ request.GET.q }}">
+
+            <button type="submit">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M10.875 18.75C15.2242 18.75 18.75 15.2242 18.75 10.875 18.75 6.5258 15.2242 3 10.875 3 6.5258 3 3 6.5258 3 10.875 3 15.2242 6.5258 18.75 10.875 18.75ZM16.4434 16.4438 20.9997 21.0002"
+                  stroke="#4F4F4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                </path>
+              </svg>
+            </button>
+          </form>
+        </div>
+        <nav class="mobile-nav">
+          <a href="{% url 'web:catalog' %}">{{ "nav.catalog"|t:request }}</a>
+          <a href="{% url 'web:about' %}">{{ "nav.about"|t:request }}</a>
+          <a href="{% url 'web:news' %}">{{ "nav.news"|t:request }}</a>
+          <a href="{% url 'web:where_buy' %}">{{ "nav.where_buy"|t:request }}</a>
+          <a href="{% url 'web:contacts' %}">{{ "nav.contacts"|t:request }}</a>
+          <a href="{% url 'web:library' %}">{{ "nav.library"|t:request }}</a>
+        </nav>
+        <div class="mobile-nav-rights">
+          <p>© 2026 CHINT {{ "footer.all_rights"|t:request }} </p>
+        </div>
+      </div>
+    </header>
+    <main class="container">
+      {% block content %}{% endblock %}
+    </main>
+    <footer class="website__footer">
+      <div class="footer__container">
+        {# Subscribe for email #}
+        <div style="display: none;" class="footer__subscribe">
+          <h3>Подписаться на рассылку</h3>
+          <p>Я хочу получать новости и рекламную информацию от компании CHINT</p>
+        </div>
+        {# desc line #}
+        <div class="footer__desc-line">
+          <h1>{{ "footer.official_website"|t:request }}</h1>
+        </div>
+
+        {# footer - nav block #}
+        <div class="footer__navigation">
+          <div class="footer__navigation-block">
+            {# footer policy #}
+            <div class="footer__policy">
+              <ul>
+                <li>
+                  <a href="{% url 'web:user_agreement' %}">{{ "footer.personal"|t:request }}</a>
+                </li>
+                <li>
+                  <a href="{% url 'web:privacy_policy' %}">{{ "footer.confidential"|t:request }}</a>
+                </li>
+                <!-- li>
+                  <a href="/politics/consent-newsletter/" class="">{{ "footer.accept"|t:request }}</a>
+                </li -->
+                <li>
+                  <a href="{% url 'web:cookie_policy' %}">{{ "footer.cookie"|t:request }}</a>
+                </li>
+              </ul>
+            </div>
+
+            {# footer navigation #}
+            <div class="footer__navigation-small">
+              <a href="{% url 'web:catalog' %}">
+                {{ "nav.catalog"|t:request }}
+              </a>
+
+              <a href="{% url 'web:about' %}">
+                {{ "nav.about"|t:request }}
+              </a>
+
+              <a href="{% url 'web:news' %}">
+                {{ "nav.news"|t:request }}
+              </a>
+
+              <a href="{% url 'web:where_buy' %}">
+                {{ "nav.where_buy"|t:request }}
+              </a>
+
+              <a href="{% url 'web:contacts' %}">
+                {{ "nav.contacts"|t:request }}
+              </a>
+            </div>
+
+            {# footer contact #}
+            <div class="footer__contact">
+              <div class="footer__numbers">
+                <p>+994 (12) 499 21 11</p>
+              </div>
+              <div class="footer__social">
+                <a href="https://www.instagram.com/chint.caucasus/" target="_blank"  aria-label="Instagram">
+                  <i class="fa fa-instagram" aria-hidden="true"></i>
+                </a>
+
+                <!--a href="#" aria-label="WhatsApp">
+                  <i class="fa fa-whatsapp" aria-hidden="true"></i>
+                </a-->
+
+                <a href="https://www.facebook.com/people/Chint-Caucasus/pfbid02W5VR19E41LE7QcSYjc1m5LVoZ4zkJWTkZA3JCU2Q7jktq4iE8LEEsPVXVEnsd1Y9l/" target="_blank"  aria-label="Facebook">
+                  <i class="fa fa-facebook" aria-hidden="true"></i>
+                </a>
+
+                <a href="https://www.linkedin.com/in/chint-caucasus-b248b027a/" target="_blank" aria-label="LinkedIn">
+                  <i class="fa fa-linkedin" aria-hidden="true"></i>
+                </a>
+
+                <a href="https://www.youtube.com/@CHINTCAUCASUS" target="_blank" aria-label="YouTube">
+                  <i class="fa fa-youtube-play" aria-hidden="true"></i>
+                </a>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        {# footer - copytright #}
+        <div class="footer__copy">
+          <div class="footer__copy-wrapper">
+            <p>© 2026 CHINT {{ "footer.all_rights"|t:request }} </p>
+
+          </div>
+
+        </div>
+      </div>
+    </footer>
+  </div>
+  <script src="{% static 'js/pages/contact-form.js' %}"></script>
+  <script src="{% static 'js/pages/app.js' %}"></script>
+  <script src="{% static 'js/pages/header-scroll.js' %}"></script>
+  {% block scripts %}{% endblock %}
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const toggle = document.querySelector(".search-toggle");
+      const body = document.body;
+
+      if (!toggle) return;
+
+      toggle.addEventListener("click", function () {
+        body.classList.toggle("search-open");
+      });
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,22 @@
+/* RU: Google Fonts (Montserrat) */
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
+
+/* EN: MarkPro local */
+@font-face {
+  font-family: "MarkProEN";
+  src: url("../fonts/en/MarkPro.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* AZ: MarkPro local */
+@font-face {
+  font-family: "MarkProAZ";
+  src: url("../fonts/az/MarkPro.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* KA: позже добавишь сюда грузинский шрифт */

@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+{% load static i18n site_text %}
+
+{% block title %}{{ "nav.where_buy"|t:request }} — Chint{% endblock %}
+{% block page_css %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="{% static 'css/pages/buy.css' %}">
+{% endblock %}
+{% block content %}
+<section class="where-buy-page">
+  <div class="map-container">
+
+    <h1 class="page-title">
+      {{ "nav.where_buy"|t:request }}
+    </h1>
+
+    <div class="where-buy-layout">
+      <!-- ЛЕВАЯ КОЛОНКА -->
+      <div class="where-buy-list" id="shopList">
+
+        <div class="shop-item" data-lat="41.72656610163374" data-lng="44.7300810983585">
+          <strong>Georgia – Tbilisi</strong><br>
+          Shalva Nutsubidze Street 82 <br>
+          info@powerhub.ge <br><br>
+          +995551111222
+        </div>
+
+        <div class="shop-item" data-lat="40.41332560874592" data-lng="49.85670102551643">
+          <strong>BUTA SUPPLY LLC – Chint Electric</strong><br>
+          Baku AZ1010, Narimanov district,<br>
+          Asiq Molla Cuma Street 46B <br>
+          sales@butasupply.az <br><br>
+          +994556354353 <br> +994555505063
+        </div>
+
+        <div class="shop-item" data-lat="40.32740028466317" data-lng="49.775339275684985">
+          <strong>BUTA SUPPLY LLC – Chint Electric (Store 2)</strong><br>
+          Baku AZ1010, Shixov district,<br>
+          Sadarak TM, Tasarrufat 2-4-5 <br>
+          sales@butasupply.az <br><br>
+          +994509639646 <br> +994555505063
+        </div>
+
+        <div class="shop-item" data-lat="40.38068389892578" data-lng="49.88477325439453">
+          <strong>BUTA SUPPLY LLC – FestLight Electric</strong><br>
+          Baku AZ1010, Khatai district,<br>
+          White City, Green Island Street, Spektr 3 <br>
+          sales@butasupply.az <br><br>
+          +994705125215 <br> +994555505063
+        </div>
+
+        <div class="shop-item" data-lat="40.415754723255446" data-lng="49.910196685540406">
+          <strong>TELCON LLC – Office</strong><br>
+          No. 1, 106B Heydar Aliyev Avenue,<br>
+          Baku AZ1052 <br>
+          sales@telcon.az <br><br>
+          +994123105500 <br>
+          +994993105500
+        </div>
+
+        <div class="shop-item" data-lat="40.423813853949355" data-lng="49.878660038429096">
+          <strong>INTER SR MMC – Store 1</strong><br>
+          AZ1029, Bakı şəhəri , Nərimanov rayonu, <br>
+          Ələsgər Qaibov küçəsi 24M <br>
+          EUROHOME TM <br>
+          a.serdar1974@mail.ru <br><br>
+          +994503388981
+        </div>
+
+        <div class="shop-item" data-lat="40.40448362111403" data-lng="49.94855121803792">
+          <strong>INTER SR MMC – Store 2</strong><br>
+          Baku AZ1119, Nizami district,<br>
+          Intersection of Gara Garayev & Bahruz Nuriyev Streets,<br>
+          SUNAY TM <br>
+          doli.quliyev@mail.ru <br><br>
+          +994503123402
+        </div>
+
+        <div class="shop-item" data-lat="40.320472719186284" data-lng="49.75614416616237">
+          <strong>AMPER MMC - Absheron TM</strong><br>
+          Bakı şəh., Qaradağ r., <br>
+          Abşeron TM, Sıra 1 Korpus 7 Mağaza 7<br>
+          info@amperelektrik.az <br> <br>
+          +994502013860 <br>
+          +994104161616
+        </div>
+
+
+        <div class="shop-item" data-lat="40.33034334272976" data-lng="49.777092735635804">
+          <strong>AMPER MMC - Sadarak TM</strong><br>
+          Sədərək TM mağaza <br>
+          info@amperelektrik.az <br> <br>
+          +994502018732
+        </div>
+      </div>
+
+      <!-- КАРТА -->
+      <div class="where-buy-map">
+        <div id="map"></div>
+      </div>
+
+    </div>
+
+  </div>
+  {# ----FORM--- #}
+  {% include "includes/contact-form.html" %}
+
+</section>
+
+
+{% if request.LANGUAGE_CODE == "en" %}
+<script src="https://api-maps.yandex.ru/2.1/?apikey=29430e07-e271-4a8b-9949-5c40433f49f9&lang=en_US" type="text/javascript"></script>
+{% elif request.LANGUAGE_CODE == "az" %}
+<script src="https://api-maps.yandex.ru/2.1/?apikey=29430e07-e271-4a8b-9949-5c40433f49f9&lang=en_US" type="text/javascript"></script>
+{% elif request.LANGUAGE_CODE == "ka" %}
+<script src="https://api-maps.yandex.ru/2.1/?apikey=29430e07-e271-4a8b-9949-5c40433f49f9&lang=en_US" type="text/javascript"></script>
+{% else %}
+<script src="https://api-maps.yandex.ru/2.1/?apikey=29430e07-e271-4a8b-9949-5c40433f49f9&lang=ru_RU" type="text/javascript"></script>
+{% endif %}
+<script>
+ymaps.ready(init);
+
+function init() {
+
+    const map = new ymaps.Map("map", {
+        center: [40.4093, 49.8671], // временный центр (Баку)
+        zoom: 10,
+        controls: ["zoomControl"]
+    });
+
+    const bounds = [];
+
+    document.querySelectorAll(".shop-item").forEach((item) => {
+
+        const lat = parseFloat(item.dataset.lat);
+        const lng = parseFloat(item.dataset.lng);
+
+        const placemark = new ymaps.Placemark(
+            [lat, lng],
+            {
+                balloonContent: item.innerHTML
+            },
+            {
+                preset: "islands#redIcon"
+            }
+        );
+
+        map.geoObjects.add(placemark);
+        bounds.push([lat, lng]);
+
+        item.addEventListener("click", () => {
+            map.setCenter([lat, lng], 14, { duration: 300 });
+            placemark.balloon.open();
+        });
+
+    });
+
+    // Авто-центрирование по всем точкам
+    if (bounds.length) {
+        map.setBounds(bounds, {
+            checkZoomRange: true,
+            zoomMargin: 40
+        });
+    }
+}
+</script>
+
+{% endblock %}

@@ -1,0 +1,15 @@
+services:
+  web:
+    build: .
+    command: gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 3
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./media:/app/media
+      - static_volume:/app/staticfiles
+    restart: unless-stopped
+
+volumes:
+  static_volume:

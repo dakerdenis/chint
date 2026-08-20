@@ -1,0 +1,217 @@
+{% extends "base.html" %}
+{% load static site_text %}
+{% block title %} Chint {% endblock%}
+{% block page_css %}
+<link rel="stylesheet" href="{% static 'css/pages/about.css' %}" />
+{% endblock %} {% block content %}
+<section class="about-page">
+  <div class="about-container">
+    {# ABOUT Name #}
+    <div class="about_name">{{ "about.company"|t:request }}</div>
+    {# ABOUT desc #}
+    <div class="about_desc">
+      <p>
+        {{ "about.company-desc1"|t:request }}
+      </p>
+      <p>
+        {{ "about.company-desc2"|t:request }}
+
+      </p>
+    </div>
+    {# ABOUT block #}
+    <div class="about_block">
+      <p>
+        {{ "about.caucas1"|t:request }}
+
+      </p>
+      <p>{{ "about.caucas2"|t:request }}</p>
+    </div>
+
+    {# ABOUT NUMBERS BLOCK #}
+    <div class="about__numbers">
+      <div class="numbers__elements">
+        <div class="numbers_element">
+          <div class="numbers__name" data-count data-target="140" data-suffix="+">0</div>
+          <div class="numbers__desc">{{ "about.number1"|t:request }}</div>
+        </div>
+        <div class="numbers_element">
+          <div class="numbers__name" data-count data-target="26">0</div>
+          <div class="numbers__desc">{{ "about.number2"|t:request }}</div>
+        </div>
+        <div class="numbers_element">
+          <div class="numbers__name" data-count data-target="2000" data-suffix="+">0</div>
+          <div class="numbers__desc">{{ "about.number3"|t:request }}</div>
+        </div>
+        <div class="numbers_element">
+          <div class="numbers__name" data-count data-target="20">0</div>
+          <div class="numbers__desc">{{ "about.number4"|t:request }}</div>
+        </div>
+        <div class="numbers_element">
+          <div class="numbers__name" data-count data-target="4">0</div>
+          <div class="numbers__desc">{{ "about.number5"|t:request }}</div>
+        </div>
+        <div class="numbers_element">
+          <div class="numbers__name" data-count data-target="40000" data-suffix="+">0</div>
+          <div class="numbers__desc">{{ "about.number6"|t:request }}</div>
+        </div>
+      </div>
+    </div>
+    <style>
+      .about__world {
+        width: 100%;
+        min-height: 450px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .about__world iframe {
+        width: 100%;
+        height: 500px;
+      }
+    </style>
+    {# CHINT WORLD #}
+    <div class="about__world">
+      <!----
+      <div class="about_name about__world-name">{{ "about.worldwide-name"|t:request }}</div>
+      <div class="about__world-images">
+        <div class="about_earth">
+          <video class="about_earth-video" autoplay muted loop playsinline preload="auto">
+            <source src="{% static 'video/earth.mp4' %}" type="video/mp4" />
+          </video>
+          <img class="about_earth-logo" src="{% static 'img/logo_transparent.svg' %}" alt="" />
+        </div>
+        <div class="about_earth-elements">
+          <div class="about_earth-card">
+            <div class="about_card-text">
+              <p>
+
+                {{ "about.worldwide1"|t:request }}
+              </p>
+            </div>
+          </div>
+          <div class="about_earth-card">
+            <div class="about_card-text">
+              <p>
+                {{ "about.worldwide2"|t:request }}
+
+              </p>
+            </div>
+          </div>
+          <div class="about_earth-card">
+            <div class="about_card-text">
+              <p>{{ "about.worldwide3"|t:request }} </p>
+            </div>
+          </div>
+          <div class="about_earth-card">
+            <div class="about_card-text">
+              <p>{{ "about.worldwide4"|t:request }}
+
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="about_desc about__world-desc">
+        <p>
+          {{ "about.worldwide-desc"|t:request }}
+        </p>
+      </div>
+      ---->
+      {% if request.LANGUAGE_CODE == "ru" %}
+      <iframe src="https://www.youtube.com/embed/lbJ9zwvAYf4" title="CHINT Video RU" frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+      </iframe>
+      {% else %}
+      <iframe src="https://www.youtube.com/embed/WYrbEqs4liw" title="CHINT Video EN" frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+      </iframe>
+      {% endif %}
+    </div>
+
+    {# CHint activities #}
+    <div class="about__activities">
+      <div class="about__activities-name about_name">
+        {{ "about.work-name"|t:request }}
+      </div>
+
+      <div class="about__activities-wrapper">
+        <div class="about__activities-element">
+          <div class="about__activities-dark">
+            <p>{{ "about.work1"|t:request }}
+            </p>
+          </div>
+          <img src="{% static 'img/about1.jpg' %}" alt="" />
+        </div>
+        <div class="about__activities-element">
+          <div class="about__activities-dark">
+            <p>{{ "about.work2"|t:request }}</p>
+          </div>
+          <img src="{% static 'img/about2.jpg' %}" alt="" />
+        </div>
+        <div class="about__activities-element">
+          <div class="about__activities-dark">
+            <p>{{ "about.work3"|t:request }}</p>
+          </div>
+          <img src="{% static 'img/about3.jpg' %}" alt="" />
+        </div>
+        <div class="about__activities-element">
+          <div class="about__activities-dark">
+            <p>{{ "about.work4"|t:request }}</p>
+          </div>
+          <img src="{% static 'img/about4.jpg' %}" alt="" />
+        </div>
+        <div class="about__activities-element">
+          <div class="about__activities-dark">
+            <p>{{ "about.work4"|t:request }}</p>
+          </div>
+          <img src="{% static 'img/about5.jpg' %}" alt="" />
+        </div>
+        <div class="about__activities-element">
+          <div class="about__activities-dark">
+            <p>{{ "about.work5"|t:request }}</p>
+          </div>
+          <img src="{% static 'img/about4.jpg' %}" alt="" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# CHINT about desc 2 #}
+  <div class="about__chint">
+    <div class="about__chint-black">
+      <div class="about__chint-content">
+        <div class="about__chint-element">
+          <div class="about__chint-number" data-count data-target="4">0</div>
+          <div class="about__chint-text">
+            {{ "about.benefit1"|t:request }}
+
+          </div>
+        </div>
+        <div class="about__chint-element">
+          <div class="about__chint-number" data-count data-target="5" data-suffix="%">0</div>
+          <div class="about__chint-text">
+            {{ "about.benefit2"|t:request }}
+
+          </div>
+        </div>
+        <div class="about__chint-element">
+          <div class="about__chint-number" data-count data-target="30" data-suffix="%">0</div>
+          <div class="about__chint-text">
+            {{ "about.benefit3"|t:request }}
+
+          </div>
+        </div>
+        <div class="about__chint-element">
+          <div class="about__chint-number" data-count data-target="7000" data-prefix="+">0</div>
+          <div class="about__chint-text">{{ "about.benefit4"|t:request }}</div>
+        </div>
+      </div>
+    </div>
+    <img src="{% static 'img/about7.jpg' %}" alt="" />
+  </div>
+</section>
+<script src="{% static 'js/counters.js' %}"></script>
+{% endblock %}

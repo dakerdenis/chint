@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{% if category %}{{ category.name }}{% else %}Category{% endif %}</title>
+  <style>
+    .layout { display:flex; gap:24px; }
+    .sidebar { width:320px; }
+    .content { flex:1; }
+    .box { border:1px solid #ddd; padding:12px; margin-bottom:16px; }
+    .grid { display:grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap:10px; }
+    .card { border:1px solid #eee; padding:10px; }
+    .pager a { margin-right:10px; }
+    .crumbs a { text-decoration:none; }
+    .crumbs span { margin:0 6px; color:#999; }
+  </style>
+</head>
+<body>
+
+<a href="/api-test2/categories/ui/">← back to tree</a>
+
+{% if breadcrumb %}
+  <div class="crumbs">
+    {% for c in breadcrumb %}
+      <a href="/api-test2/catalog/{{ c.id }}/">{{ c.name }}</a>{% if not forloop.last %}<span>/</span>{% endif %}
+    {% endfor %}
+  </div>
+{% endif %}
+
+<h2>{% if category %}{{ category.name }}{% else %}Category not found{% endif %}</h2>
+
+<div class="layout">
+  <div class="sidebar">
+    <div class="box">
+      <h3>Subcategories</h3>
+      <ul>
+        {% for c in children %}
+          <li><a href="/api-test2/catalog/{{ c.id }}/">{{ c.name }}</a></li>
+        {% empty %}
+          <li>No subcategories</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="box">
+      <h3>Products</h3>
+
+      <div class="grid">
+        {% for p in products %}
+          <div class="card">
+            <div><b>{{ p.vendor_code }}</b></div>
+            <div>{{ p.short_name }}</div>
+            <div style="margin-top:6px;">
+              <a href="/api-test2/products/{{ p.vendor_code }}/">Open</a>
+            </div>
+          </div>
+        {% empty %}
+          <div>No products</div>
+        {% endfor %}
+      </div>
+
+      <hr>
+
+      <div class="pager">
+        {% if page > 1 %}
+          <a href="?page={{ page|add:-1 }}&limit={{ limit }}">← Prev</a>
+        {% endif %}
+        <span>Page {{ page }} / {{ pages }}</span>
+        {% if page < pages %}
+          <a href="?page={{ page|add:1 }}&limit={{ limit }}">Next →</a>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,383 @@
+/**! ***COLORS*************/
+/**! ***COLORS*************/
+/**! ***COLORS*************/
+:root {
+    --blue-main: #237AE2;
+    --blue-dark: #005bac;
+    --blue-blue: #25c1ff;
+    /* ORANGE color */
+    --black: #000;
+    /* BLACK color */
+    --grey: #F9F9F9;
+    --grey-text: #333
+}
+
+
+/* =====================================================
+   PRODUCT DETAIL PAGE
+===================================================== */
+
+.product-detail-page {
+    width: 1400px;
+    margin: 0 auto;
+    padding: 40px 0 60px 0;
+    background: #fff;
+}
+
+.product-detail-page .container {
+    padding: 0 20px;
+}
+
+/* ---------- BREADCRUMBS ---------- */
+
+.product-detail-page .container > div:first-child {
+    font-size: 14px;
+    color: #777;
+}
+
+.product-detail-page a {
+    text-decoration: none;
+    transition: 0.2s ease;
+}
+
+.product-detail-page a:hover {
+    color: var(--blue-main);
+}
+
+/* ---------- MAIN LAYOUT ---------- */
+
+.product-detail-page .container > div[style*="display:flex"] {
+    background: var(--grey);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+}
+
+/* ---------- IMAGE ---------- */
+
+.product-detail-page img {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px !important;
+    border: 1px solid #eee !important;
+    transition: 0.3s ease;
+}
+
+.product-detail-page img:hover {
+    transform: scale(1.02);
+}
+
+/* ---------- TITLE ---------- */
+
+.product-detail-page h1 {
+    font-size: 28px;
+    line-height: 1.3;
+    color: var(--grey-text);
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+/* ---------- META ---------- */
+
+.product-detail-page p {
+    font-size: 15px;
+    color: #555;
+    margin: 8px 0;
+}
+
+.product-detail-page p b {
+    color: var(--grey-text);
+}
+
+/* ---------- ETIM BADGE ---------- */
+
+.product-detail-page p b:contains("ETIM") {
+    color: var(--blue-dark);
+}
+
+/* ---------- SECTION TITLE ---------- */
+
+.product-detail-page h3 {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--grey-text);
+    margin-bottom: 20px;
+}
+
+/* ---------- TABLE ---------- */
+
+.product-detail-page table {
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+}
+
+.product-detail-page th {
+    background: var(--blue-dark);
+    color: #fff;
+    font-weight: 500;
+    padding: 12px !important;
+    text-align: left;
+    border: none !important;
+}
+
+.product-detail-page td {
+    padding: 12px !important;
+    border-bottom: 1px solid #eee !important;
+    font-size: 14px;
+    color: #444;
+}
+
+.product-detail-page tr:last-child td {
+    border-bottom: none !important;
+}
+
+.product-detail-page tbody tr:hover {
+    background: #f5faff;
+}
+
+/* ---------- DIVIDER ---------- */
+
+.product-detail-page hr {
+    border: none;
+    height: 1px;
+    background: #eee;
+}
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 992px) {
+    .product-detail-page {
+        width: 100%;
+    }
+    .product-detail-page .container > div[style*="display:flex"] {
+        flex-direction: column !important;
+        gap: 20px !important;
+    }
+
+    .product-detail-page img {
+        padding: 10px;
+    }
+
+    .product-detail-page h1 {
+        font-size: 22px;
+    }
+
+    .product-detail-page h3 {
+        font-size: 18px;
+    }
+
+    .product-detail-page table {
+        font-size: 13px;
+    }
+
+    .product-detail-page th,
+    .product-detail-page td {
+        padding: 10px !important;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .product-detail-page {
+        padding: 20px 0 40px 0;
+    }
+
+    .product-detail-page h1 {
+        font-size: 18px;
+    }
+
+    .product-detail-page table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+}
+
+
+/* =====================================================
+   TABS
+===================================================== */
+
+.pd-tabs {
+    margin-top: 10px;
+}
+
+.pd-tabs__nav {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 18px;
+}
+
+.pd-tabs__btn {
+    appearance: none;
+    border: 1px solid #e6e6e6;
+    background: #fff;
+    color: var(--grey-text);
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.pd-tabs__btn:hover {
+    border-color: var(--blue-main);
+    color: var(--blue-main);
+}
+
+.pd-tabs__btn.is-active {
+    background: var(--blue-dark);
+    border-color: var(--blue-dark);
+    color: #fff;
+}
+
+.pd-tabs__content {
+    background: #fff;
+    border-radius: 12px;
+    padding: 18px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+}
+
+.pd-tabs__panel {
+    width: 100%;
+}
+
+/* reuse existing table styles but avoid inline attrs */
+.pd-specs-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.pd-docs {
+    display: flex;
+    flex-direction: column;   /* ← колонка */
+    gap: 12px;
+}
+
+.pd-docs__link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 12px 16px 12px 44px; /* место под иконку */
+    border-radius: 12px;
+    border: 1px solid #e6e6e6;
+    background: #fff;
+    color: var(--grey-text);
+    font-size: 15px;
+    font-weight: 500;
+    transition: 0.2s ease;
+}
+.pd-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+}
+
+.pd-lightbox__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+}
+
+.pd-lightbox__content {
+  position: relative;
+  max-width: 90%;
+  max-height: 90%;
+  margin: auto;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+}
+
+.pd-lightbox__content img {
+  max-width: 100%;
+  max-height: 90vh;
+}
+
+.pd-lightbox__close {
+  position: absolute;
+  top: -30px;
+  right: -10px;
+  font-size: 32px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+/* ИКОНКА ДОКУМЕНТА */
+.pd-docs__link::before {
+    content: "";
+    position: absolute;
+    left: 14px;
+    width: 18px;
+    height: 22px;
+    background-color: var(--blue-dark);
+    mask: url("data:image/svg+xml;utf8,\
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'>\
+<path d='M6 2h9l5 5v15a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm8 1.5V8h4.5L14 3.5z'/>\
+</svg>") no-repeat center;
+    mask-size: contain;
+}
+
+/* hover */
+.pd-docs__link:hover {
+    border-color: var(--blue-main);
+    color: var(--blue-main);
+    background: #f8fbff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+.pd-docs__link:hover {
+    border-color: var(--blue-main);
+    color: var(--blue-main);
+    background: #fff;
+}
+
+.pd-empty {
+    padding: 14px;
+    border: 1px dashed #ddd;
+    border-radius: 10px;
+    color: #666;
+    font-size: 14px;
+    background: #fff;
+}
+
+/* =====================================================
+   MOBILE TABS
+===================================================== */
+
+@media (max-width: 600px) {
+    .pd-tabs__nav {
+        gap: 8px;
+        padding-bottom: 8px;
+        margin-bottom: 12px;
+    }
+    .pd-lightbox__close {
+        top: -49px;
+    }
+    .pd-tabs__btn {
+        flex: 1 1 calc(50% - 8px);
+        text-align: center;
+        padding: 10px 10px;
+        border-radius: 12px;
+    }
+
+    .pd-tabs__content {
+        padding: 12px;
+        border-radius: 12px;
+    }
+
+    .pd-docs__link {
+        width: 100%;
+        justify-content: center;
+    }
+} 

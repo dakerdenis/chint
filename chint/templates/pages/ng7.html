@@ -1,0 +1,496 @@
+{% extends "base.html" %}
+{% load static i18n site_text %}
+
+{% block title %}NG7 — Chint{% endblock %}
+
+{% block page_css %}
+<link rel="stylesheet" href="{% static 'css/pages/ng7.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="ng7-container">
+    <!------------->
+    <div class="ng7-image">
+        <img src="{% static 'img/csu-back.jpg' %}" alt="">
+        <p>{{ "ng7.name"|t:request }}</p>
+    </div>
+
+    <!------------->
+    <div class="ng7-desc">
+        <h3 class="ng7-name">
+            {{ "ng7.name"|t:request }}
+        </h3>
+        <div class="ng7-content">
+            {{ "ng7.desc"|t:request }}
+        </div>
+    </div>
+    <!-----ADVANTAGES-------->
+    <div class="ng7-advantages">
+        <div class="ng7-advantages-name">
+            {{ "ng7.advantage"|t:request }}
+        </div>
+
+        <div class="ng7-advantages-container">
+            {% for i in "1234567"|make_list %}
+            <div class="ng7-advantages-element">
+                <div class="ng7-eleemnt-image">
+                    <img src="{% static 'img/ng' %}{{ i }}.svg" alt="">
+                </div>
+                <div class="ng7-eleemnt-desc">
+                    {{ "ng7.advantage."|add:i|t:request }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-----CHARACTEREISITCS----->
+    <div class="ng7-characteristics">
+        <div class="ng7-characteristics-name">
+            {{ "ng7.characteristics"|t:request }}
+        </div>
+        <div class="ng7-characteristics-container">
+            <div class="ng7-characteristics-image">
+                <img src="{% static 'img/char1.png' %}" alt="">
+            </div>
+            <div class="ng7-characteristics-desc">
+                <div class="col">
+                    <p>
+                        <b>{{ "ng7.characteristics.application.title"|t:request }}</b>:
+                        {{ "ng7.characteristics.application.text"|t:request }}<br>
+                        {{ "ng7.characteristics.insulation"|t:request }}
+                    </p>
+                    <p>
+                        <b>{{ "ng7.characteristics.rated_voltage.title"|t:request }}</b>:
+                        {{ "ng7.characteristics.rated_voltage.value"|t:request }}
+                    </p>
+                    <p>
+                        <b>{{ "ng7.characteristics.switchgear_current.title"|t:request }}</b>:
+                        {{ "ng7.characteristics.switchgear_current.value"|t:request }}
+                    </p>
+                    <p>
+                        <b>{{ "ng7.characteristics.busbar_current.title"|t:request }}</b>:
+                        {{ "ng7.characteristics.busbar_current.value"|t:request }}
+                    </p>
+                    <p>
+                        <b>{{ "ng7.characteristics.mechanical_life.title"|t:request }}</b>:
+                        {{ "ng7.characteristics.mechanical_life.value"|t:request }}
+                    </p>
+                    <p>
+                        <b>{{ "ng7.characteristics.features.title"|t:request }}</b>:
+                        {{ "ng7.characteristics.features.text"|t:request }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-----table with parameters---->
+    <div class="ng7-table">
+        <table class="styled-table characteristic-table">
+            <tbody>
+                <tr>
+                    <th colspan="4" class="th-big">
+                        Technical characteristics
+                    </th>
+                    <th colspan="2" class="th-big">
+                        NG7
+                    </th>
+                </tr>
+
+                <tr>
+                    <th colspan="3">
+                        Main technical characteristics
+                    </th>
+                    <th>
+                        Unit
+                    </th>
+                    <th>
+                        Load break switch function
+                    </th>
+                    <th>
+                        Vacuum circuit breaker function
+                    </th>
+                </tr>
+
+                <tr>
+                    <td colspan="3">
+                        Functions
+                    </td>
+                    <td></td>
+                    <td>
+                        S
+                    </td>
+                    <td>
+                        V
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="3" class="">
+                        Rated operating voltage
+                    </td>
+                    <td class="">
+                        kV
+                    </td>
+                    <td class="">
+                        6(10/20/35)
+                    </td>
+                    <td class="">
+                        6(10/20/35)<br>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="3" class="">
+                        Rated frequency
+                    </td>
+                    <td class="">
+                        Hz
+                    </td>
+                    <td class="">
+                        50/60
+                    </td>
+                    <td class="">
+                        50/60
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="3" class="">
+                        Rated current
+                    </td>
+                    <td class="">
+                        A
+                    </td>
+                    <td class="">
+                        630
+                    </td>
+                    <td class="">
+                        630
+                    </td>
+                </tr>
+
+                <tr>
+                    <td rowspan="5">
+                        Insulation level
+                    </td>
+                    <td rowspan="3">
+                        Power-frequency withstand voltage
+                    </td>
+                    <td>
+                        Phase-to-earth
+                    </td>
+                    <td>
+                        kV
+                    </td>
+                    <td>
+                        42/65/95
+                    </td>
+                    <td>
+                        42/65/95
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Phase-to-phase
+                    </td>
+                    <td>
+                        kV
+                    </td>
+                    <td>
+                        48/79/119
+                    </td>
+                    <td>
+                        48/79/119
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Control and auxiliary circuits
+                    </td>
+                    <td>
+                        kV
+                    </td>
+                    <td>
+                        2/2/2
+                    </td>
+                    <td>
+                        2/2/2
+                    </td>
+                </tr>
+
+                <tr>
+                    <td rowspan="2">
+                        Impulse withstand voltage
+                    </td>
+                    <td>
+                        Phase-to-earth
+                    </td>
+                    <td>
+                        kV
+                    </td>
+                    <td>
+                        75/125/185
+                    </td>
+                    <td>
+                        75/125/185
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Phase-to-phase
+                    </td>
+                    <td>
+                        kV
+                    </td>
+                    <td>
+                        85/145/215
+                    </td>
+                    <td>
+                        85/145/215
+                    </td>
+                </tr>
+
+                <tr>
+                    <td rowspan="3" colspan="2">
+                        Thermal withstand current
+                    </td>
+                    <td>
+                        Main circuits / 4 s
+                    </td>
+                    <td>
+                        kA
+                    </td>
+                    <td>
+                        20/20/20
+                    </td>
+                    <td>
+                        20/25/25
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Earthing circuits / 4 s
+                    </td>
+                    <td>
+                        kA
+                    </td>
+                    <td>
+                        20/20/20
+                    </td>
+                    <td>
+                        20/25/25
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Earthing connection circuits / 4 s
+                    </td>
+                    <td>
+                        kA
+                    </td>
+                    <td>
+                        17,4/17,4/17,4
+                    </td>
+                    <td>
+                        17,4/21,7/21,7
+                    </td>
+                </tr>
+
+                <tr>
+                    <td rowspan="2" colspan="2">
+                        Dynamic withstand current
+                    </td>
+                    <td>
+                        Main circuits
+                    </td>
+                    <td>
+                        kA
+                    </td>
+                    <td>
+                        50/50/50
+                    </td>
+                    <td>
+                        50/63/63
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Earthing circuits
+                    </td>
+                    <td>
+                        kA
+                    </td>
+                    <td>
+                        43,5/43,5/43,5
+                    </td>
+                    <td>
+                        43,5/54,5/54,5
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="3">
+                        Rated short-circuit making current
+                    </td>
+                    <td>
+                        kA
+                    </td>
+                    <td>
+                        50
+                    </td>
+                    <td>
+                        50/63/63
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="3">
+                        Rated short-circuit breaking current
+                    </td>
+                    <td>
+                        kA
+                    </td>
+                    <td>
+                        -
+                    </td>
+                    <td>
+                        20/25/25
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="3">
+                        Rated active load breaking current
+                    </td>
+                    <td>
+                        kA
+                    </td>
+                    <td>
+                        630
+                    </td>
+                    <td>
+                        -
+                    </td>
+                </tr>
+
+                <tr>
+                    <td rowspan="2" colspan="2">
+                        Mechanical endurance
+                    </td>
+                    <td>
+                        Load break switch / circuit breaker
+                    </td>
+                    <td></td>
+                    <td>
+                        5000
+                    </td>
+                    <td>
+                        10000
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Disconnector / earthing switch
+                    </td>
+                    <td></td>
+                    <td>
+                        5000
+                    </td>
+                    <td>
+                        5000
+                    </td>
+                </tr>
+
+                <tr>
+                    <td rowspan="2" colspan="2">
+                        Rated SF6 gas pressure
+                    </td>
+                    <td>
+                        Rated filling pressure
+                    </td>
+                    <td>
+                        MPa
+                    </td>
+                    <td>
+                        0,04
+                    </td>
+                    <td>
+                        0,04
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Minimum allowable
+                    </td>
+                    <td>
+                        MPa
+                    </td>
+                    <td>
+                        0,02
+                    </td>
+                    <td>
+                        0,02
+                    </td>
+                </tr>
+
+                <tr>
+                    <td rowspan="2" colspan="2">
+                        Degree of protection
+                    </td>
+                    <td>
+                        Primary circuit compartment
+                    </td>
+                    <td></td>
+                    <td>
+                        IP67
+                    </td>
+                    <td>
+                        IP67
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Low-voltage compartment
+                    </td>
+                    <td></td>
+                    <td>
+                        IP4X
+                    </td>
+                    <td>
+                        IP4X
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="3">
+                        Maximum annual SF6 gas leakage, not more than
+                    </td>
+                    <td>
+                        %/year
+                    </td>
+                    <td>
+                        ≤0,1%
+                    </td>
+                    <td>
+                        ≤0,1%
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+  {# ----FORM--- #}
+  {% include "includes/contact-form.html" %}
+
+</section>
+{% endblock %}

@@ -1,0 +1,223 @@
+{% extends "base.html" %}
+{% load static site_text %}
+
+{% block title %}Catalog — Chint{% endblock %}
+{% block page_css %}
+<link rel="stylesheet" href="{% static 'css/pages/catalog-category.css' %}">
+{% endblock %}
+{% block content %}
+<section class="catalog-category-page">
+
+    <div class="category__wrapper">
+        <div class="category-navigation">
+            <a href="{% url 'web:catalog' %}">{{ "catalog-category.title"|t:request }}</a>&nbsp;/&nbsp;
+            {% if category %}
+            <a href="{% url 'web:catalog_category' category_slug=category.slug %}">
+                {% if request.LANGUAGE_CODE == "ru" %}
+                {{ category.name_ru }}
+                {% elif request.LANGUAGE_CODE == "az" %}
+                {{ category.name_az|default:category.name_en|default:category.name_ru }}
+                {% elif request.LANGUAGE_CODE == "ka" %}
+                {{ category.name_ka|default:category.name_en|default:category.name_ru }}
+                {% else %}
+                {{ category.name_en|default:category.name_ru }}
+                {% endif %}
+            </a>
+            {% endif %}
+
+            {% if subcategory %}
+            &nbsp;/&nbsp;
+            <a href="{% url 'web:catalog_subcategory' category_slug=category.slug sub_slug=subcategory.slug %}">
+                {% if request.LANGUAGE_CODE == "ru" %}
+                {{ subcategory.name_ru }}
+                {% elif request.LANGUAGE_CODE == "az" %}
+                {{ subcategory.name_az|default:subcategory.name_en|default:subcategory.name_ru }}
+                {% elif request.LANGUAGE_CODE == "ka" %}
+                {{ subcategory.name_ka|default:subcategory.name_en|default:subcategory.name_ru }}
+                {% else %}
+                {{ subcategory.name_en|default:subcategory.name_ru }}
+                {% endif %}
+            </a>
+            {% endif %}
+        </div>
+
+        {# название категорий или подкатегорий #}
+        <div class="category-name">
+            <p>
+                {% if subcategory %}
+                {% if request.LANGUAGE_CODE == "ru" %}
+                {{ subcategory.name_ru }}
+                {% elif request.LANGUAGE_CODE == "az" %}
+                {{ subcategory.name_az|default:subcategory.name_en|default:subcategory.name_ru }}
+                {% elif request.LANGUAGE_CODE == "ka" %}
+                {{ subcategory.name_ka|default:subcategory.name_en|default:subcategory.name_ru }}
+                {% else %}
+                {{ subcategory.name_en|default:subcategory.name_ru }}
+                {% endif %}
+                {% else %}
+                {% if request.LANGUAGE_CODE == "ru" %}
+                {{ category.name_ru }}
+                {% elif request.LANGUAGE_CODE == "az" %}
+                {{ category.name_az|default:category.name_en|default:category.name_ru }}
+                {% elif request.LANGUAGE_CODE == "ka" %}
+                {{ category.name_ka|default:category.name_en|default:category.name_ru }}
+                {% else %}
+                {{ category.name_en|default:category.name_ru }}
+                {% endif %}
+                {% endif %}
+            </p>
+        </div>
+
+        <div class="subcategory__elements__wrapper">
+            {% for it in items %}
+            {% if it.kind == "group" %}
+            <a href="{{ it.href }}" class="subcategory__element">
+                <div class="subcategory__element-image">
+                    {% if it.image_url %}
+                    <img src="{{ it.image_url }}" alt="" srcset="">
+                    {% endif %}
+                </div>
+                <div class="subcategory__element-text">
+                    <p>
+                        {% if request.LANGUAGE_CODE == "ru" %}
+                        {{ it.obj.name_ru }}
+                        {% elif request.LANGUAGE_CODE == "az" %}
+                        {{ it.obj.name_az|default:it.obj.name_en|default:it.obj.name_ru }}
+                        {% elif request.LANGUAGE_CODE == "ka" %}
+                        {{ it.obj.name_ka|default:it.obj.name_en|default:it.obj.name_ru }}
+                        {% else %}
+                        {{ it.obj.name_en|default:it.obj.name_ru }}
+                        {% endif %}
+                    </p>
+                </div>
+            </a>
+            {% else %}
+            {# если потом захочешь показывать дочерние категории — добавим href и тоже кликабельно #}
+            <a href="{{ it.href }}" class="subcategory__element">
+                <div class="subcategory__element-image">
+                    {% if it.image_url %}
+                    <img src="{{ it.image_url }}" alt="" srcset="">
+                    {% endif %}
+                </div>
+                <div class="subcategory__element-text">
+                    <p>
+                        {% if request.LANGUAGE_CODE == "ru" %}
+                        {{ it.obj.name_ru }}
+                        {% elif request.LANGUAGE_CODE == "az" %}
+                        {{ it.obj.name_az|default:it.obj.name_en|default:it.obj.name_ru }}
+                        {% elif request.LANGUAGE_CODE == "ka" %}
+                        {{ it.obj.name_ka|default:it.obj.name_en|default:it.obj.name_ru }}
+                        {% else %}
+                        {{ it.obj.name_en|default:it.obj.name_ru }}
+                        {% endif %}
+                    </p>
+                </div>
+            </a>
+            {% endif %}
+            {% empty %}
+            {# ничего #}
+            {% endfor %}
+        </div>
+
+
+
+
+
+        {# Список товаров которые входят в эту категорию или подкатегорию #}
+        <div class="subcategory__goods">
+            {# Фильтр который виден только на страницах типа
+            http://127.0.0.1:8000/ru/catalog/lowvoltage1/modular-circuit-breakers/ или
+            http://127.0.0.1:8000/ru/catalog/lowvoltage1/ #}
+            <div class="subcategory__goods-filter_main">
+                <div class="subcategory-main_filter-element1">
+                    <p>Номинальный ток</p>
+                    <div class="subcategory-main_filter-variants">
+                        <a href="#">1A</a>
+                        <a href="#">2A</a>
+                        <a href="#">3A</a>
+                        <a href="#">4A</a>
+                        <a href="#">6A</a>
+                        <a href="#">10A</a>
+                        <a href="#">13A</a>
+                        <a href="#">16A</a>
+                        <a href="#">20A</a>
+                        <a href="#">25A</a>
+                    </div>
+                </div>
+            </div>
+
+
+            {# ====== GOODS LIST (как раньше) ====== #}
+            {% if page_obj %}
+            <div class="category-goods-meta">
+                Найдено: {{ page_obj.paginator.count }} |
+                Страница: {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+            </div>
+
+            <div class="category-goods-grid">
+                {% for p in page_obj.object_list %}
+
+
+                <a href="{% url 'web:product_detail' product_id=p.chint_id %}" class="product-card">
+
+                    <div class="product-img product-img--compact">
+                        {% if p.picture_url %}
+                        <img src="{{ p.picture_url }}" alt="">
+                        {% endif %}
+                    </div>
+
+                    <div class="product-body">
+                        <div class="product-title">
+                            {% if request.LANGUAGE_CODE == "ru" %}
+                            {{ p.name_short_ru|default:p.name_full_ru }}
+                            {% elif request.LANGUAGE_CODE == "az" %}
+                            {{ p.name_short_az|default:p.name_short_en|default:p.name_short_ru|default:p.name_full_ru }}
+                            {% elif request.LANGUAGE_CODE == "ka" %}
+                            {{ p.name_short_ka|default:p.name_short_en|default:p.name_short_ru|default:p.name_full_ru }}
+                            {% else %}
+                            {{ p.name_short_en|default:p.name_short_ru|default:p.name_full_ru }}
+                            {% endif %}
+                        </div>
+                        <div class="product-sku">Артикул: {{ p.vendor_code }}</div>
+                    </div>
+                </a>
+                {% empty %}
+                <div class="empty">Нет товаров</div>
+                {% endfor %}
+            </div>
+
+            {% if page_obj.paginator.num_pages > 1 %}
+            <nav class="pagination">
+                {% if page_obj.has_previous %}
+                <a class="page" href="?page=1">«</a>
+                <a class="page" href="?page={{ page_obj.previous_page_number }}">‹</a>
+                {% else %}
+                <span class="page disabled">«</span>
+                <span class="page disabled">‹</span>
+                {% endif %}
+
+                <span class="page current">
+                    {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+                </span>
+
+                {% if page_obj.has_next %}
+                <a class="page" href="?page={{ page_obj.next_page_number }}">›</a>
+                <a class="page" href="?page={{ page_obj.paginator.num_pages }}">»</a>
+                {% else %}
+                <span class="page disabled">›</span>
+                <span class="page disabled">»</span>
+                {% endif %}
+            </nav>
+            {% endif %}
+            {% endif %}
+            {# ====== /GOODS LIST ====== #}
+
+
+        </div>
+
+
+
+
+
+</section>
+{% endblock %}

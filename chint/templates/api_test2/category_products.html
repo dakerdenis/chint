@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Category products</title>
+</head>
+<body>
+
+<a href="/api-test2/categories/ui/">← back to categories</a>
+
+<h2>Products</h2>
+
+<ul>
+{% for p in products %}
+    <li>
+        <a href="/api-test2/products/{{ p.vendor_code }}/">
+            {{ p.vendor_code }} — {{ p.short_name }}
+        </a>
+    </li>
+{% empty %}
+    <li>No products found</li>
+{% endfor %}
+</ul>
+
+<hr>
+
+<div>
+{% if page > 1 %}
+    <a href="?page={{ page|add:-1 }}">← Prev</a>
+{% endif %}
+
+<a href="?page={{ page|add:1 }}">Next →</a>
+</div>
+
+</body>
+</html>

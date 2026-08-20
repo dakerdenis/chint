@@ -1,0 +1,410 @@
+.about-page {
+    width: 100%;
+}
+
+.about-container {
+    width: 1400px;
+    margin: 0 auto;
+}
+
+.about_name {
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 24px;
+    margin-bottom: 40px;
+    font-size: 40px;
+    font-weight: 600;
+    letter-spacing: .2px;
+}
+
+.about_desc {}
+
+.about_desc p {
+    margin-bottom: 16px;
+    font-size: 15px;
+    line-height: 1.86;
+    color: var(--grey-text);
+}
+
+.about_block {
+    margin-top: 30px;
+    margin-bottom: 50px;
+    font-size: 18px;
+    color: var(--grey-text);
+    font-weight: 600;
+    font-style: 15px;
+    background-color: #e8f2fe;
+    width: 100%;
+
+    padding: 55px;
+    position: relative;
+    line-height: 1.86;
+}
+
+.about_block p:nth-child(1) {
+    margin-bottom: 10px;
+}
+
+.about_block::before {
+    content: "";
+    width: 4px;
+    height: 36px;
+    position: absolute;
+    background-color: var(--blue-main);
+    left: 0;
+    top: 0;
+}
+
+.about__numbers {
+
+    width: 1400px;
+    margin: 0 auto;
+    margin-top: 120px;
+}
+
+.numbers__elements {
+
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.numbers_element {
+    width: 200px;
+    height: 230px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.numbers__name {
+    color: var(--blue-blue);
+    font-size: 60px;
+    font-weight: 700;
+}
+
+.numbers__desc {
+    color: var(--grey-text);
+    font-size: 18px;
+    font-weight: 500;
+    text-align: center;
+    margin-top: 20px;
+    line-height: 1.8;
+}
+
+.about__world {}
+
+.about__world-name {}
+
+.about__world-images {
+    position: relative;
+    width: 100%;
+
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.about_earth {
+    position: relative;
+    width: 240px;
+    height: 200px;
+}
+
+.about_earth-logo {
+    position: absolute;
+    z-index: 200;
+    width: 105px;
+    height: 58px;
+    left: calc(50% - 52.5px);
+    top: calc(50% - 29px);
+}
+
+.about_earth-video {
+    position: absolute;
+    inset: 0;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    pointer-events: none;
+    /* <-- КЛЮЧЕВОЕ: никакого взаимодействия */
+    user-select: none;
+}
+
+.about__world-desc {
+    margin-top: 30px;
+}
+
+.about_earth-elements {
+    margin-bottom: 40px;
+    margin-top: 40px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.about_earth-card {
+    width: 300px;
+    height: 320px;
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    color: #13437d;
+}
+
+.about_earth-card:hover {
+    background: linear-gradient(181.42deg, #005bac 1.57%, #237ae4 111.25%);
+    color: #fff;
+}
+
+.about_card-text {
+    font-size: 25px;
+    line-height: 40px;
+    text-align: left;
+    font-weight: 600;
+}
+
+
+.about__activities {
+    width: 1400px;
+    margin: 0 auto;
+    margin-top: 60px;
+    margin-bottom: 60px;
+}
+
+.about__activities-name {}
+
+.about__activities-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.about__activities-element {
+    width: calc(31.8%);
+    height: 290px;
+    overflow: hidden;
+
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.about__activities-dark {
+    position: absolute;
+    z-index: 200;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding: 24px;
+
+}
+
+.about__activities-dark p {
+    display: block;
+    color: #fff;
+    max-width: 50%;
+    text-align: right;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 28px;
+}
+
+.about__activities-element img {
+    position: absolute;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+
+.about__chint {
+    width: 100%;
+    height: 630px;
+    position: relative;
+    overflow: hidden;
+}
+
+.about__chint-black {
+    position: absolute;
+    z-index: 200;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.about__chint-content {
+    width: 600px;
+
+}
+
+.about__chint-element {
+    width: 100%;
+    display: flex;
+
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.about__chint-number {
+    color: var(--blue-blue);
+    font-size: 60px;
+    font-weight: 700;
+    margin-right: 24px;
+}
+
+.about__chint-text {
+    color: #fff;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.86;
+}
+
+.about__chint img {
+    position: absolute;
+    z-index: 100;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+@media only screen and (max-width: 1450px) {
+    .about-container {
+        width: 1200px;
+    }
+
+    .about__numbers {
+        width: 1200px;
+    }
+
+    .numbers__name {
+        font-size: 40px;
+    }
+
+    .numbers_element {
+        width: 190px;
+    }
+
+    .numbers__desc {
+        font-size: 16px;
+    }
+
+    .about_earth-card {
+        width: 250px;
+        height: 300px;
+    }
+
+    .about_card-text {
+        font-size: 20px;
+    }
+
+    .about__activities {
+        width: 1200px;
+    }
+
+    .about__chint {
+
+    }
+}
+
+@media (max-width: 991px) {
+    .about-container {
+        width: 90%;
+        margin: 0 auto;
+
+    }
+
+    .about__numbers {
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .numbers__elements {
+        flex-wrap: wrap;
+    }
+
+    .about_earth-elements {
+        width: 100%;
+
+    }
+
+    .about_earth-card {
+        width: 90%;
+        margin-bottom: 20px;
+        height: initial;
+    }
+
+    .about__activities {
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .about_name {
+        font-size: 31px;
+    }
+
+    .about_block {
+        font-size: 17px;
+        padding: 30px;
+    }
+
+    .numbers_element {
+        width: 150px;
+        height: 160px;
+    }
+
+    .numbers__desc {
+        font-size: 14px;
+        line-height: 1.5;
+    }
+    .about_earth-elements{
+        flex-direction: column;
+    }
+    .about__activities{
+        width: 100%;
+        margin: 0 auto;
+    }
+    .about__activities-wrapper{
+        flex-wrap: wrap;
+
+    }
+    .about__activities-element{
+        width: 48%;
+        height: 250px;
+            margin-bottom: 20px;
+    }
+    .about__activities-dark{
+        padding: 10px;
+    }
+    .about__activities-dark p {
+        max-width: 70%;
+        font-size: 14px;
+    }
+    .about__chint-element{
+        width: 90%;
+        margin: 0 auto;
+        margin-bottom: 20px;
+    }
+    .about__chint-text{
+        font-size: 12px;
+    }
+    .about__chint-number {
+        font-size: 45px;
+    }
+}

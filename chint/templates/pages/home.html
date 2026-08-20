@@ -1,0 +1,549 @@
+{% extends "base.html" %}
+{% load static i18n site_text %}
+
+
+{% block page_css %}
+<link rel="stylesheet" href="{% static 'css/pages/home.css' %}">
+{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="home__container">
+  {# ----SWIPER----- #}
+  {# ----SWIPER----- #}
+  <section class="home__swiper">
+    <div class="home__swiper-container">
+
+      <div class="swiper homeSwiper">
+        <div class="swiper-wrapper">
+
+          {% for s in sliders %}
+          <div class="swiper-slide">
+
+            <!-- BG -->
+            <div class="swiper__bg">
+              <img src="{{ s.background.url }}" alt="">
+            </div>
+
+            <div class="swiper__container">
+              <!-- LEFT -->
+              <div class="swiper__content">
+
+                {% if request.LANGUAGE_CODE == "ru" %}
+                <span class="swiper__tag">{{ s.tag_ru }}</span>
+                <h2 class="swiper__title">{{ s.title_ru }}</h2>
+                <p class="swiper__text">{{ s.text_ru }}</p>
+                <a href="{{ s.button_url }}" class="swiper__btn">{{ s.button_ru }}</a>
+
+                {% elif request.LANGUAGE_CODE == "az" %}
+                <span class="swiper__tag">{{ s.tag_az|default:s.tag_en }}</span>
+                <h2 class="swiper__title">{{ s.title_az|default:s.title_en }}</h2>
+                <p class="swiper__text">{{ s.text_az|default:s.text_en }}</p>
+                <a href="{{ s.button_url }}" class="swiper__btn">{{ s.button_az|default:s.button_en }}</a>
+
+                {% elif request.LANGUAGE_CODE == "ka" %}
+                <span class="swiper__tag">{{ s.tag_ka|default:s.tag_en }}</span>
+                <h2 class="swiper__title">{{ s.title_ka|default:s.title_en }}</h2>
+                <p class="swiper__text">{{ s.text_ka|default:s.text_en }}</p>
+                <a href="{{ s.button_url }}" class="swiper__btn">{{ s.button_ka|default:s.button_en }}</a>
+
+                {% else %}
+                <span class="swiper__tag">{{ s.tag_en }}</span>
+                <h2 class="swiper__title">{{ s.title_en }}</h2>
+                <p class="swiper__text">{{ s.text_en }}</p>
+                <a href="{{ s.button_url }}" class="swiper__btn">{{ s.button_en }}</a>
+                {% endif %}
+
+              </div>
+
+              <!-- RIGHT IMAGE -->
+              {% if s.right_image %}
+              <div class="swiper__image">
+                <img src="{{ s.right_image.url }}" alt="">
+              </div>
+              {% endif %}
+            </div>
+          </div>
+          {% endfor %}
+
+        </div>
+        <!-- arrows -->
+        <div class="swiper-button-prev homeSwiperPrev"></div>
+        <div class="swiper-button-next homeSwiperNext"></div>
+
+        <!-- dots -->
+        <div class="swiper-pagination homeSwiperPagination"></div>
+
+        <!-- progress bar (fills then switches slide) -->
+        <div class="home-swiper-progress">
+          <span class="home-swiper-progress__bar"></span>
+        </div>
+      </div>
+
+
+    </div>
+  </section>
+
+  {# ----ALERT----- #}
+  {# ----ALERT----- #}
+  <div class="home__alert">
+    <div class="home__alert-wrapper">
+
+      <!-- IMAGE -->
+      <div class="home__alert-image">
+        <img src="{% static 'img/alert.png' %}" alt="Original vs counterfeit products">
+      </div>
+
+      <!-- TEXT -->
+      <div class="home__alert-desc">
+        <span class="home__alert-badge">
+          {{ "home.alert.notice"|t:request }}
+        </span>
+        <h3>
+          {{ "home.alert.name"|t:request }}
+        </h3>
+        <p>
+          {{ "home.alert.desc1"|t:request }}
+        </p>
+
+        <p>
+          {{ "home.alert.desc2"|t:request }}
+        </p>
+
+        <button class="home__alert-link" id="openAlertModal">
+          {{ "home.alert.link"|t:request }} →
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+
+
+
+
+  {# ----Main----- #}
+  <div class="home__main">
+    <div class="home__main-container">
+      <div class="home__main-name">
+        {# <h3>Главная</h3> #}
+      </div>
+      <div class="home__main-wrapper">
+        {# ----- #}
+        <a href="{% url 'web:catalog' %}" class="home__main-element">
+          <div class="home__main-back">
+            <img src="{% static 'img/low.jpg' %}" alt="">
+          </div>
+
+
+          <div class="home__main-desc">
+            <p>{{ "home.catalog.low"|t:request }}</p>
+          </div>
+        </a>
+        {# ----- #}
+        <a href="{% url 'web:ng7' %}" class="home__main-element">
+          <div class="home__main-back">
+            <img src="{% static 'img/gnu.jpg' %}" alt="">
+          </div>
+
+
+          <div class="home__main-desc">
+            <p>{{ "home.main.csu"|t:request }}</p>
+          </div>
+        </a>
+        {# ----- #}
+        <a href="{% url 'web:tech_consult' %}" class="home__main-element">
+          <div class="home__main-back">
+            <img src="{% static 'img/tech.jpg' %}" alt="">
+          </div>
+
+
+          <div class="home__main-desc">
+            <p>{{ "home.main.tech"|t:request }}</p>
+          </div>
+        </a>
+        {# ----- #}
+      </div>
+    </div>
+  </div>
+
+  {# ----HOME EXPLORE----- #}
+  <div class="home__explore">
+    <div class="home__explore-name">
+      <h3>{{ "home.explore.name"|t:request }}</h3>
+    </div>
+    <div class="home__explore-container">
+      {# ---1 big-- #}
+      <a href="{% url 'web:catalog' %}" class="home__explore-big">
+        <h3>{{ "home.explore.big1"|t:request }}</h3>
+        <p>{{ "home.explore.big2"|t:request }}</p>
+        <span>{{ "home.explore.view"|t:request }} -> </span>
+        <div class="home__explore-big-image">
+          <img
+            src="https://www.chintglobal.com/content/dam/chintsite/global/en/home/NB1-63-D63-179766-MCB-9-1280x1280.jpeg"
+            alt="" srcset="">
+        </div>
+      </a>
+
+      {# ---4 small-- #}
+      <div class="home__explore-smalls">
+        <div class="home__explore-smalls-3">
+          <a target="_blank"
+            href="https://www.chintglobal.com/global/en/products/power-transmission-and-distribution.html"
+            target="_blank" class="home__explore-smalls-element">
+            <h3>{{ "home.explore.small11"|t:request }}</h3>
+            <p>{{ "home.explore.small12"|t:request }}</p>
+            <span>{{ "home.explore.view"|t:request }} -></span>
+            <div class="explore-smalls-element-image">
+              <img src="https://www.chintglobal.com/content/dam/chintsite/global/en/home/bigPrd_Power_TandD.jpg" alt="">
+            </div>
+          </a>
+          <a target="_blank"
+            href="https://www.chintglobal.com/global/en/products/low-voltage-switchgear-and-software.html"
+            class="home__explore-smalls-element">
+            <h3>{{ "home.explore.small21"|t:request }}</h3>
+            <p>{{ "home.explore.small22"|t:request }}</p>
+            <span>{{ "home.explore.view"|t:request }} -></span>
+            <div class="explore-smalls-element-image">
+              <img
+                src="https://www.chintglobal.com/content/dam/chintsite/global/en/home/EnergiX-M-Main-Distribution-Board-Studio-Image-2-640.png"
+                alt="">
+            </div>
+          </a>
+          <a target="_blank" href="https://www.chintglobal.com/global/en/products/instruments-meters.html"
+            class="home__explore-smalls-element">
+            <h3>{{ "home.explore.small31"|t:request }}</h3>
+            <p>{{ "home.explore.small32"|t:request }}</p>
+            <span>{{ "home.explore.view"|t:request }} -></span>
+            <div class="explore-smalls-element-image">
+              <img
+                src="https://www.chintglobal.com/content/dam/chintsite/global/en/home/bigPrd_Instruments_Meters-1280x1280.jpg"
+                alt="">
+            </div>
+          </a>
+        </div>
+
+        <div class="home__explore-smalls-3">
+          <a target="_blank" href="#" class="home__explore-smalls-element">
+            <h3>{{ "home.explore.small41"|t:request }}</h3>
+            <p>{{ "home.explore.small42"|t:request }}</p>
+            <span>{{ "home.explore.view"|t:request }} -></span>
+            <div class="explore-smalls-element-image">
+              <img src="	https://www.chintglobal.com/content/dam/chintsite/global/en/home/bigPrd_EV.jpg" alt="">
+            </div>
+          </a>
+          <a target="_blank" href="https://www.astronergy.com/" class="home__explore-smalls-element">
+            <h3>{{ "home.explore.small51"|t:request }}</h3>
+            <p>{{ "home.explore.small52"|t:request }}</p>
+            <span>{{ "home.explore.view"|t:request }} -></span>
+            <div class="explore-smalls-element-image">
+              <img src="https://www.astronergy.com/wp-content/uploads/2024/11/0-ASTRO-N8-720W.png" alt="">
+            </div>
+          </a>
+          <a target="_blank" href="https://en.chintpower.com/" class="home__explore-smalls-element">
+            <h3>{{ "home.explore.small61"|t:request }}</h3>
+            <p>{{ "home.explore.small62"|t:request }}</p>
+            <span>{{ "home.explore.view"|t:request }} -></span>
+            <div class="explore-smalls-element-image">
+              <img src="{% static 'img/680adeefa9741.png' %}" alt="">
+            </div>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  {# ----Catalog----- #}
+  <div class="home__catalog">
+    <img class="home__catalog-img" src="{% static 'img/productions-bg.jpg' %}" alt="">
+    <div class="home__catalog-black">
+      <div class="home__catalog-container">
+        <div class="home__catalog-name">
+          {{ "home.catalog.name"|t:request }}
+        </div>
+        <div class="home__catalog-row">
+          <div class="home__catalog-desc">
+
+            <div class="home__catalog-text">
+              <p>{{ "home.catalog.text"|t:request }}</p>
+            </div>
+          </div>
+          <div class="home__catalog-links">
+            <a href="{% url 'web:catalog' %}">
+              <p>{{ "home.catalog.low"|t:request }}</p>
+              <div>
+                <img src="{% static 'img/icon_arrow_left_white.svg' %}" alt="" srcset="">
+              </div>
+            </a>
+            <a href="{% url 'web:library' %}?tab=5">
+              <p>{{ "home.catalog.huge"|t:request }}</p>
+              <div>
+                <img src="{% static 'img/icon_arrow_left_white.svg' %}" alt="" srcset="">
+              </div>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  {# --- Often search----- #}
+  <div class="home__often">
+    <div class="home__often-wrapper">
+      <div class="home__often-nameh">
+        <h4>{{ "home.often.name"|t:request }}</h4>
+      </div>
+      {# -------- #}
+      <div class="home__often-container">
+        {% for fc in featured_categories %}
+        <a href="/{{ request.LANGUAGE_CODE }}/catalog/{{ fc.id }}/" class="home__often-element">
+
+          <div class="home__often-image">
+            {% if fc.image %}
+            <img src="{{ fc.image.url }}" alt="">
+            {% endif %}
+          </div>
+
+          <div class="home__often-name">
+            {% if request.LANGUAGE_CODE == "ru" %}
+            {{ fc.name }}
+            {% elif request.LANGUAGE_CODE == "az" %}
+            {{ fc.name_az|default:fc.name_en|default:fc.name }}
+            {% elif request.LANGUAGE_CODE == "ka" %}
+            {{ fc.name_ka|default:fc.name_en|default:fc.name }}
+            {% else %}
+            {{ fc.name_en|default:fc.name }}
+            {% endif %}
+          </div>
+
+        </a>
+        {% endfor %}
+
+      </div>
+
+      {# -------- #}
+    </div>
+  </div>
+
+  {# ----Recommend goods----- #}
+  <div class="home__recommend">
+    <div class="home__recommend-name">
+      <h3>{{ "home.recommend.name"|t:request }} </h3>
+    </div>
+    <div class="home__recommend-wrapper">
+      <div class="swiper recommendSwiper">
+        <div class="swiper-wrapper">
+
+          {% for rp in recommended_products %}
+          <div class="swiper-slide">
+            <a href="{% url 'web:product_detail' product_id=rp.id %}" class="home__recommend-element">
+              <div class="home__recommend-image">
+                {% if rp.picture %}
+                <img src="{{ rp.picture }}" alt="">
+                {% endif %}
+              </div>
+              <div class="home__recommend-desc">
+                <p>
+                  {% if request.LANGUAGE_CODE == "en" and rp.short_name_en %}
+                  {{ rp.short_name_en }}
+                  {% elif request.LANGUAGE_CODE == "az" and rp.short_name_az %}
+                  {{ rp.short_name_az }}
+                  {% elif request.LANGUAGE_CODE == "ka" and rp.short_name_ka %}
+                  {{ rp.short_name_ka }}
+                  {% else %}
+                  {{ rp.short_name|default:rp.name }}
+                  {% endif %}
+                </p>
+
+              </div>
+            </a>
+          </div>
+          {% endfor %}
+        </div>
+
+        <div class="swiper-button-prev recommendPrev"></div>
+        <div class="swiper-button-next recommendNext"></div>
+
+      </div>
+
+
+    </div>
+  </div>
+
+        <style>
+      .home__news-video {
+        width: 100%;
+        min-height: 450px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .home__news-video iframe {
+        max-width: 950px;
+        width: 100%;
+        height: 500px;
+      }
+    </style>
+  {# CHINT WORLD #}
+  <div class="home__news home__news-video">
+    <!----
+      <div class="about_name about__world-name">{{ "about.worldwide-name"|t:request }}</div>
+      <div class="about__world-images">
+        <div class="about_earth">
+          <video class="about_earth-video" autoplay muted loop playsinline preload="auto">
+            <source src="{% static 'video/earth.mp4' %}" type="video/mp4" />
+          </video>
+          <img class="about_earth-logo" src="{% static 'img/logo_transparent.svg' %}" alt="" />
+        </div>
+        <div class="about_earth-elements">
+          <div class="about_earth-card">
+            <div class="about_card-text">
+              <p>
+
+                {{ "about.worldwide1"|t:request }}
+              </p>
+            </div>
+          </div>
+          <div class="about_earth-card">
+            <div class="about_card-text">
+              <p>
+                {{ "about.worldwide2"|t:request }}
+
+              </p>
+            </div>
+          </div>
+          <div class="about_earth-card">
+            <div class="about_card-text">
+              <p>{{ "about.worldwide3"|t:request }} </p>
+            </div>
+          </div>
+          <div class="about_earth-card">
+            <div class="about_card-text">
+              <p>{{ "about.worldwide4"|t:request }}
+
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="about_desc about__world-desc">
+        <p>
+          {{ "about.worldwide-desc"|t:request }}
+        </p>
+      </div>
+      ---->
+    {% if request.LANGUAGE_CODE == "ru" %}
+    <iframe src="https://www.youtube.com/embed/lbJ9zwvAYf4" title="CHINT Video RU" frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+    </iframe>
+    {% else %}
+    <iframe src="https://www.youtube.com/embed/WYrbEqs4liw" title="CHINT Video EN" frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+    </iframe>
+    {% endif %}
+  </div>
+
+  {# --------News----- #}
+  <div class="home__news">
+    <div class="home__news-container">
+      <div class="home__news-name">
+        <h3>{{ "news.name"|t:request }}</h3>
+        <a href="{% url 'web:news' %}">{{ "news.view_all"|t:request }}</a>
+      </div>
+      <div class="home__news_wrapper">
+        {% for n in latest_news %}
+        <a href="{% url 'web:news_detail' slug=n.slug %}" class="news__element">
+          <div class="news__element-image">
+            {% if n.cover %}
+            <img src="{{ n.cover.url }}" alt="">
+            {% endif %}
+          </div>
+          <div class="news__element-desc">
+            <div class="news__element-date">
+              {{ n.published_at|date:"d.m.Y" }}
+            </div>
+            <div class="news__element-name">
+              {% if request.LANGUAGE_CODE == "ru" %}
+              {{ n.title_ru }}
+              {% elif request.LANGUAGE_CODE == "az" %}
+              {{ n.title_az|default:n.title_en|default:n.title_ru }}
+              {% elif request.LANGUAGE_CODE == "ka" %}
+              {{ n.title_ka|default:n.title_en|default:n.title_ru }}
+              {% else %}
+              {{ n.title_en|default:n.title_ru }}
+              {% endif %}
+            </div>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+
+    </div>
+  </div>
+
+
+
+
+</div>
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="{% static 'js/pages/home-swiper.js' %}"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const openBtn = document.getElementById("openAlertModal");
+    const modal = document.getElementById("alertModal");
+    const closeBtn = document.getElementById("closeAlertModal");
+
+    if (!openBtn || !modal || !closeBtn) return;
+
+    openBtn.addEventListener("click", () => {
+      modal.classList.add("is-open");
+      document.body.style.overflow = "hidden";
+    });
+
+    closeBtn.addEventListener("click", closeModal);
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    function closeModal() {
+      modal.classList.remove("is-open");
+      document.body.style.overflow = "";
+    }
+  });
+
+</script>
+{% endblock %}
+
+<div class="modal-overlay" id="alertModal">
+  <div class="modal-window">
+    <button class="modal-close" id="closeAlertModal">×</button>
+    <div class="modal-content">
+      <h2>
+        {{ "home.alert.modal.name"|t:request }} </h2>
+      <p>{{ "home.alert.modal.desc1"|t:request }}</p>
+      <p>{{ "home.alert.modal.desc2"|t:request }}</p>
+      <!-- КЛИКАБЕЛЬНАЯ КАРТИНКА -->
+      <a href="{% static 'img/original-vs-fake.jpg' %}" target="_blank" rel="noopener" class="modal-image-link">
+        <img src="{% static 'img/original-vs-fake.jpg' %}" alt="Original vs counterfeit products">
+      </a>
+      <p>{{ "home.alert.modal.verify"|t:request }}</p>
+      <ul>
+        <li>{{ "home.alert.modal.list1"|t:request }}</li>
+        <li>{{ "home.alert.modal.list2"|t:request }}</li>
+        <li>{{ "home.alert.modal.list3"|t:request }}</li>
+        <li>{{ "home.alert.modal.list4"|t:request }}</li>
+      </ul>
+      <p>{{ "home.alert.modal.desc3"|t:request }}</p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

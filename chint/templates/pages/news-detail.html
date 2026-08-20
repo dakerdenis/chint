@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% load static site_text %}
+
+{% block title %}
+  {% if request.LANGUAGE_CODE == "ru" %}
+    {{ news.title_ru }}
+  {% elif request.LANGUAGE_CODE == "az" %}
+    {{ news.title_az|default:news.title_en|default:news.title_ru }}
+  {% elif request.LANGUAGE_CODE == "ka" %}
+    {{ news.title_ka|default:news.title_en|default:news.title_ru }}
+  {% else %}
+    {{ news.title_en|default:news.title_ru }}
+  {% endif %}
+  — Chint
+{% endblock %}
+
+{% block page_css %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" />
+
+  <link rel="stylesheet" href="{% static 'css/pages/news-detail.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="news-detail-page">
+  <div class="news-detail-container" style="">
+
+    <div class="news-detail-breadcrumbs" style="margin-bottom:16px;">
+      <a href="{% url 'web:home' %}">Home</a>
+      <span> / </span>
+      <a href="{% url 'web:news' %}">{{ "news.name"|t:request }}</a>
+      <span> / </span>
+      <span>
+        {% if request.LANGUAGE_CODE == "ru" %}
+          {{ news.title_ru }}
+        {% elif request.LANGUAGE_CODE == "az" %}
+          {{ news.title_az|default:news.title_en|default:news.title_ru }}
+        {% elif request.LANGUAGE_CODE == "ka" %}
+          {{ news.title_ka|default:news.title_en|default:news.title_ru }}
+        {% else %}
+          {{ news.title_en|default:news.title_ru }}
+        {% endif %}
+      </span>
+    </div>
+    
+    <header class="news-detail-header" style="margin-bottom:18px;">
+      <h1 class="news-detail-title">
+        {% if request.LANGUAGE_CODE == "ru" %}
+          {{ news.title_ru }}
+        {% elif request.LANGUAGE_CODE == "az" %}
+          {{ news.title_az|default:news.title_en|default:news.title_ru }}
+        {% elif request.LANGUAGE_CODE == "ka" %}
+          {{ news.title_ka|default:news.title_en|default:news.title_ru }}
+        {% else %}
+          {{ news.title_en|default:news.title_ru }}
+        {% endif %}
+      </h1>
+
+      <div class="news-detail-date" style="opacity:.7;">
+        {{ news.published_at|date:"d.m.Y" }}
+      </div>
+    </header>
+
+{% if news.cover %}
+<div class="news-detail-cover" style="margin-bottom:20px;">
+  <a href="{{ news.cover.url }}" data-fancybox="news-gallery" style="display:block;">
+    <img src="{{ news.cover.url }}" alt="" style="width:100%;height:auto;border-radius:12px;display:block;">
+  </a>
+</div>
+{% endif %}
+
+
+    <article class="news-detail-body" style="line-height:1.6;">
+      {% if request.LANGUAGE_CODE == "ru" %}
+        {{ news.body_ru|safe }}
+      {% elif request.LANGUAGE_CODE == "az" %}
+        {{ news.body_az|default:news.body_en|default:news.body_ru|safe }}
+      {% elif request.LANGUAGE_CODE == "ka" %}
+        {{ news.body_ka|default:news.body_en|default:news.body_ru|safe }}
+      {% else %}
+        {{ news.body_en|default:news.body_ru|safe }}
+      {% endif %}
+    </article>
+
+{% if gallery %}
+<div class="news-detail-gallery" style="margin-top:28px;">
+  <div class="news-detail-gallery-grid"
+       style="display:grid;grid-template-columns:repeat(5, 1fr);gap:10px;">
+    {% for img in gallery %}
+      <a href="{{ img.image.url }}"
+         data-fancybox="news-gallery"
+         data-caption="{% if request.LANGUAGE_CODE == 'ru' %}{{ news.title_ru }}{% else %}{{ news.title_en|default:news.title_ru }}{% endif %}"
+         style="display:block;">
+        <img src="{{ img.image.url }}"
+             alt=""
+             style="width:100%;height:140px;object-fit:cover;border-radius:10px;display:block;">
+      </a>
+    {% endfor %}
+
+  </div>
+</div>
+{% endif %}
+
+
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+<script>
+  // Автопривязка для всех ссылок с data-fancybox
+  Fancybox.bind("[data-fancybox]", {
+    animated: true,
+    dragToClose: true,
+    Thumbs: { autoStart: true },
+    Toolbar: { display: ["close"] },
+  });
+</script>
+
+{% endblock %}

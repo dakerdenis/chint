@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static site_text %}
+
+{% block title %}Catalog — Chint{% endblock %}
+
+{% block page_css %}
+<link rel="stylesheet" href="{% static 'css/pages/catalog.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="catalog-page">
+  <div class="catalog__wrapper">
+
+    {# Заголовок страницы #}
+    <div class="catalog-name">
+      <p>{{ root.name }}</p>
+    </div>
+
+    <div class="catalog__main__category1">
+
+      {# Название корневой категории #}
+      <div class="catalog__main__category-name">
+        <p>{{ root.name }}</p>
+      </div>
+
+      {# Категории 1 уровня #}
+      <div class="catalog__main__category-wrapper">
+
+        {% for cat in level1 %}
+        <div class="sub_category-element">
+
+          {# Заглушка изображения #}
+          <div class="sub_category-image">
+            <img
+              src="https://images.unsplash.com/photo-1581090700227-1e37b190418e"
+              alt="{{ cat.name }}"
+            >
+          </div>
+
+          <div class="sub_category-name_list">
+
+            {# Название категории 1 уровня #}
+            <div class="sub_category-name">
+              {{ cat.name }}
+            </div>
+
+            {# Подкатегории (2 уровень) #}
+            {% if cat.children.all %}
+            <div class="sub_category-children">
+              {% for sub in cat.children.all %}
+                <span>{{ sub.name }}</span>
+              {% endfor %}
+            </div>
+            {% endif %}
+
+          </div>
+        </div>
+        {% endfor %}
+
+      </div>
+    </div>
+
+  </div>
+</section>
+{% endblock %}

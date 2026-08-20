@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Categories</title>
+    <style>
+        ul {
+            list-style: none;
+            padding-left: 20px;
+        }
+        li {
+            margin: 4px 0;
+        }
+        .node {
+            padding: 2px 4px;
+        }
+        .children {
+            margin-left: 16px;
+            border-left: 1px dashed #ccc;
+        }
+    </style>
+</head>
+<body>
+
+<a href="/api-test2/">← back</a>
+
+<h2>Product Categories</h2>
+
+<ul>
+{% for category in categories %}
+    {% include "api_test2/category_node.html" %}
+{% endfor %}
+</ul>
+
+</body>
+</html>

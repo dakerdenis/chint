@@ -1,0 +1,208 @@
+/* ===============================
+   CONTACTS PAGE
+================================ */
+
+.contacts-page {
+    width: 100%;
+    background-color: #fff;
+    padding: 80px 0 100px;
+}
+
+.contacts-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.contact__name {
+    font-size: 42px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+/* ===============================
+   CONTACT INFO BLOCKS
+================================ */
+
+.contacts__content {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    margin-bottom: 80px;
+}
+
+.contacts__block {
+    flex: 1;
+    background-color: #f9f9f9;
+    padding: 32px;
+    border-radius: 8px;
+}
+
+.contacts__block h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    color: #000;
+}
+
+.contacts-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.contacts-list li {
+    display: flex;
+    margin-bottom: 16px;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.contacts-list .label {
+    width: 140px;
+    font-weight: 600;
+    color: #333;
+}
+
+.contacts-list .value {
+    color: #555;
+}
+
+/* ===============================
+   DISTRIBUTOR FORM BLOCK
+================================ */
+
+.contacts-form-distributors {
+    margin-top: 100px;
+    background-color: #f2f2f2;
+    padding: 70px 60px;
+    border-radius: 10px;
+    margin-bottom: 100px;
+}
+
+.distributors-name {
+    font-size: 32px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.distributors-desc {
+    max-width: 700px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #666;
+    margin-bottom: 40px;
+}
+
+/* ===============================
+   DISTRIBUTOR FORM
+================================ */
+
+.distributors-form {
+    max-width: 900px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px 24px;
+    margin-bottom: 24px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
+    margin-bottom: 24px;
+}
+
+.form-group label {
+    color: #828282;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    letter-spacing: .3px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    font-size: 14px;
+    letter-spacing: .5px;
+    font-weight: 500;
+    padding: 14px 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+.form-group textarea {
+    min-height: 110px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #237ae4;
+}
+
+/* ===============================
+   FORM ACTIONS
+================================ */
+
+.form-actions {
+    margin-top: 10px;
+}
+
+.btn-primary {
+    border: none;
+    cursor: pointer;
+    background-color: #237ae4;
+    color: #fff;
+    font-weight: 600;
+    padding: 15px 36px;
+    font-size: 14px;
+    letter-spacing: .5px;
+    border-radius: 4px;
+    transition: background-color .2s ease, transform .1s ease;
+}
+
+.btn-primary:hover {
+    background-color: #005bac;
+}
+
+.btn-primary:active {
+    transform: translateY(1px);
+}
+
+/* ===============================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 900px) {
+    .contacts__content {
+        flex-direction: column;
+    }
+
+    .contacts-form-distributors {
+        padding: 50px 30px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .contact__name {
+        font-size: 34px;
+    }
+
+    .distributors-name {
+        font-size: 26px;
+    }
+}

@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% load static i18n site_text %}
+
+{% block title %}
+Contacts — Chint
+{% endblock %}
+
+{% block page_css %}
+<link rel="stylesheet" href="{% static 'css/pages/contacts.css' %}">
+{% endblock %}
+{% block content %}
+<section class="contacts-page">
+    <div class="contacts-container">
+
+        <!-- PAGE TITLE -->
+        <h1 class="contact__name">
+            {{ "contacts.name"|t:request }}
+        </h1>
+
+        <!-- CONTACT INFO -->
+        <div class="contacts__content">
+
+            <!-- LEFT BLOCK -->
+            <div class="contacts__block">
+                <h3>{{ "contacts.main-office"|t:request }}</h3>
+
+                <ul class="contacts-list">
+                    <li>
+                        <span class="label">{{ "contacts.adress"|t:request }}:</span>
+                        <span class="value">
+                            203E Nizami Street, Baku AZ1010, Azerbaijan
+                        </span>
+                    </li>
+
+                    <li>
+                        <span class="label">{{ "contacts.working-hours"|t:request }}:</span>
+                        <span class="value">
+                            Mon – Fri, 09:00 – 18:00
+                        </span>
+                    </li>
+
+                    <li>
+                        <span class="label">{{ "contacts.number"|t:request }}:</span>
+                        <span class="value">
+                            +994 (12) 499 21 11
+                        </span>
+                    </li>
+
+                    <li>
+                        <span class="label">{{ "contacts.email"|t:request }}:</span>
+                        <span class="value">
+                            info@chintcaucasus.com
+                        </span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- RIGHT BLOCK -->
+            <div class="contacts__block">
+                <h3>{{ "contacts.sales-support"|t:request }}</h3>
+
+                <ul class="contacts-list">
+                    <li>
+                        <span class="label">{{ "contacts.sales"|t:request }}:</span>
+                        <span class="value">
+                            sales@chintcaucasus.com
+                        </span>
+                    </li>
+
+                    <li>
+                        <span class="label">{{ "contacts.technical-support"|t:request }}:</span>
+                        <span class="value">
+                            support@chintcaucasus.com
+                        </span>
+                    </li>
+
+                    <li>
+                        <span class="label">{{ "contacts.partnerships"|t:request }}:</span>
+                        <span class="value">
+                            info@chintcaucasus.com
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+
+        <!-- DISTRIBUTOR FORM -->
+        <div class="contacts-form-distributors">
+            <h2 class="distributors-name">
+                {{ "contacts.form-partnership.name"|t:request }}
+            </h2>
+            <p class="distributors-desc">
+                {{ "contacts.form-partnership.desc"|t:request }}
+            </p>
+            <form class="distributors-form" method="post">
+                {% csrf_token %}
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="company_name">{{ "contacts.form-partnership.company-name"|t:request }} *</label>
+                        <input type="text" id="company_name" name="company_name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="country">{{ "contacts.form-partnership.country"|t:request }} *</label>
+                        <input type="text" id="country" name="country" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contact_person">{{ "contacts.form-partnership.clontact-person"|t:request }} *</label>
+                        <input type="text" id="contact_person" name="contact_person" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="position">{{ "contacts.form-partnership.position"|t:request }}</label>
+                        <input type="text" id="position" name="position">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">{{ "contacts.email"|t:request }} *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">{{ "contacts.number"|t:request }} *</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="company_profile">
+                        {{ "contacts.form-partnership.profile"|t:request }}
+                    </label>
+                    <textarea
+                        id="company_profile"
+                        name="company_profile"
+                        rows="4"
+                        placeholder="{{ "contacts.form-partnership.profile-desc"|t:request }}"
+                    ></textarea>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="message">
+                       {{ "contacts.form-partnership.additional"|t:request }}
+                    </label>
+                    <textarea
+                        id="message"
+                        name="message"
+                        rows="4"
+                        placeholder="{{ "contacts.form-partnership.additional-desc"|t:request }}"
+                    ></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">
+                       {{ "contacts.form-partnership.send"|t:request }} 
+                    </button>
+                </div>
+
+            </form>
+        </div>
+        <!-- UNIVERSAL CONTACT FORM -->
+        {% include "includes/contact-form.html" %}
+    </div>
+</section>
+{% endblock %}

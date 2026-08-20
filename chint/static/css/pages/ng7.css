@@ -1,0 +1,314 @@
+.ng7-container {
+  width: 100%;
+
+}
+
+.ng7-image {
+  width: 100%;
+  height: 550px;
+  position: relative;
+}
+
+.ng7-image img {
+  object-fit: cover;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+}
+
+.ng7-image p {
+  position: absolute;
+  z-index: 200;
+  display: block;
+  color: #005bac;
+  font-size: 20px;
+  ;
+  line-height: 27px;
+  font-weight: 600;
+  width: 400px;
+  height: 100px;
+
+  bottom: 150px;
+  left: 19%;
+}
+
+.ng7-desc {
+  width: 1400px;
+  margin: 0 auto;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.ng7-name {
+  font-size: 28px;
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.ng7-content {
+  color: #333;
+  font-size: 16px;
+  line-height: 1.25;
+  letter-spacing: .5px;
+}
+
+.ng7-advantages {
+  background: radial-gradient(88.97% 172% at 6.33% 11.03%, #237AE2 0%, #0052B5 100%);
+  color: #fff;
+  width: 100%;
+  padding: 40px 0px;
+}
+
+.ng7-advantages-name {
+  width: 100%;
+  text-align: center;
+  color: #fff;
+  font-weight: 600;
+  font-size: 28px;
+  margin-bottom: 40px;
+}
+
+.ng7-advantages-container {
+  width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+
+}
+
+.ng7-advantages-element {
+  display: flex;
+  justify-content: space-between;
+  width: 400px;
+  height: 120px;
+  margin-bottom: 10px;
+}
+
+.ng7-eleemnt-image {
+  width: 100px;
+  height: 100px;
+}
+
+.ng7-eleemnt-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.ng7-eleemnt-desc {
+  width: 280px;
+  padding-top: 20px;
+  font-size: 16px;
+  line-height: 1.35;
+}
+
+
+.ng7-characteristics {
+  width: 1400px;
+  margin: 0 auto;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.ng7-characteristics-name {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 40px;
+  color: #0052B5;
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.ng7-characteristics-container {
+  width: 100%;
+  height: 360px;
+  display: flex;
+
+  justify-content: space-evenly;
+}
+
+.ng7-characteristics-image {
+  width: 440px;
+  height: 100%;
+}
+
+.ng7-characteristics-desc {
+  height: 100%;
+  width: calc(100% - 460px);
+  max-width: 600px;
+}
+
+.col p {
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #333;
+  line-height: 1.25;
+}
+
+.ng7-table {
+  width: 1400px;
+  margin: 0 auto;
+  margin-top: 50px;
+  margin-bottom: 100px;
+}
+
+
+.characteristic-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+
+  color: var(--grey-text);
+}
+
+.characteristic-table th,
+.characteristic-table td {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 12px 14px;
+  vertical-align: middle;
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.characteristic-table th {
+  background: var(--grey);
+  font-weight: 700;
+  color: var(--black);
+}
+
+.characteristic-table .th-big {
+  background: linear-gradient(90deg, var(--blue-dark), var(--blue-main));
+  color: #fff;
+  font-size: 15px;
+  letter-spacing: 0.2px;
+  padding: 14px 14px;
+}
+
+.characteristic-table tr:nth-child(even) td {
+  background: #fcfcfc;
+}
+
+.characteristic-table td:first-child,
+.characteristic-table th:first-child {
+  border-left: none;
+}
+
+.characteristic-table td:last-child,
+.characteristic-table th:last-child {
+  border-right: none;
+}
+
+.characteristic-table tr:last-child td {
+  border-bottom: none;
+}
+
+.characteristic-table tr:hover td {
+  background: rgba(35, 122, 226, 0.06);
+}
+
+.characteristic-table td {
+  text-align: left;
+}
+
+.characteristic-table td:nth-last-child(-n + 2) {
+  text-align: center;
+  font-weight: 600;
+  color: var(--blue-dark);
+}
+
+.characteristic-table td:nth-child(4),
+.characteristic-table th:nth-child(4) {
+  text-align: center;
+  width: 90px;
+  white-space: nowrap;
+}
+
+.ng7-characteristics-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+@media (max-width: 1450px) {
+  .ng7-desc {
+    width: 1200px;
+  }
+
+  .ng7-characteristics {
+    width: 1200px;
+  }
+
+  .ng7-table {
+    width: 1200px;
+  }
+}
+
+@media (max-width: 900px) {
+  .characteristic-table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .characteristic-table th,
+  .characteristic-table td {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .ng7-desc {
+    width: 95%;
+
+  }
+
+  .ng7-characteristics {
+    width: 95%;
+  }
+
+  .ng7-table {
+    width: 95%;
+  }
+
+  .ng7-advantages-container {
+    width: 100%;
+
+  }
+
+  .ng7-advantages-element {
+    width: 100%;
+  }
+
+  .ng7-characteristics-container {
+    height: initial;
+    flex-direction: column;
+  }
+
+  .ng7-characteristics-image {
+    width: 100%;
+    height: 350px;
+  }
+
+  .ng7-characteristics-desc {
+    height: initial;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .ng7-image p {
+    width: 160px;
+    height: initial;
+    top: 66px;
+    left: 4%;
+  }
+
+  .ng7-advantages-container {
+    width: 95%;
+    margin: 0 auto;
+  }
+}
