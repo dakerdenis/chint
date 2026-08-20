@@ -1,34 +1,32 @@
 from django.urls import path
 
-from web.views.pages import (
-    home,
-    about,
-    contacts,
-    news,
-    where_buy,
-    ng7,
-    tech_consult,
-    library,
-    library_tab_api,
-    user_agreement,
-    privacy_policy,
-    consent_newsletter,
-    cookie_policy,
-)
-from web.views.search import search
-from web.views.news import news_detail
+from web.views.all_goods import all_goods
 from web.views.catalog import (
     catalog,
     catalog_category,
-    catalog_subcategory,
     catalog_group,
+    catalog_subcategory,
 )
 from web.views.catalog_products import category_products
-from web.views.search import search, search_products
-
-from web.views.all_goods import all_goods
 from web.views.forms import submit_contact_form
+from web.views.news import news_detail
+from web.views.pages import (
+    about,
+    consent_newsletter,
+    contacts,
+    cookie_policy,
+    home,
+    library,
+    library_tab_api,
+    news,
+    ng7,
+    privacy_policy,
+    tech_consult,
+    user_agreement,
+    where_buy,
+)
 from web.views.product import product_detail
+from web.views.search import search, search_products
 
 app_name = "web"
 

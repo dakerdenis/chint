@@ -1,20 +1,19 @@
 # web/views/pages.py
 
-from django.shortcuts import render
 from django.core.paginator import Paginator
-from web.models import (
-    News,
-    HomeFeaturedCategory,
-    HomeRecommendedProduct,
-)
-from web.models import HomeSlider
-
-
-from web.models import LibraryDocument
+from django.http import JsonResponse
+from django.shortcuts import render
+from django.template.loader import render_to_string
 
 from apps.catalog.models import Category, Product
-from django.http import JsonResponse
-from django.template.loader import render_to_string
+from web.models import (
+    HomeFeaturedCategory,
+    HomeRecommendedProduct,
+    HomeSlider,
+    LibraryDocument,
+    News,
+)
+
 
 def home(request):
     latest_news = (

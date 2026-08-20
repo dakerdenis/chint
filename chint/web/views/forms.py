@@ -1,6 +1,6 @@
+from django.core.cache import cache
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
-from django.core.cache import cache
 
 RATE_LIMIT = 10  # в час
 

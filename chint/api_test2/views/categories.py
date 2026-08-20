@@ -1,7 +1,8 @@
 from django.http import JsonResponse
 from django.shortcuts import render
-from ..services.chint_api import get
+
 from ..services.catalog_tree import build_tree
+from ..services.chint_api import get
 
 ROOT_ALLOWED_ID = "fe5547de-3d84-11df-96f8-000c6ea69372"
 

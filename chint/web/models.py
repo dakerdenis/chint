@@ -1,9 +1,8 @@
-from django.db import models
+from ckeditor_uploader.fields import RichTextUploadingField
 from django.core.cache import cache
 from django.core.validators import RegexValidator
+from django.db import models
 from django.utils.text import slugify
-from ckeditor_uploader.fields import RichTextUploadingField
-
 
 from apps.catalog.models import Category, Product
 

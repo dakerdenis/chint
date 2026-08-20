@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.db import connections, transaction
-from apps.catalog.models import Category
 
+from apps.catalog.models import Category
 
 ALLOWED_ROOT_ID = "fe5547de-3d84-11df-96f8-000c6ea69372"
 

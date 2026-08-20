@@ -1,5 +1,6 @@
 import hashlib
 import json
+
 from django.core.management.base import BaseCommand
 from django.db import transaction
 
@@ -49,7 +50,7 @@ class Command(BaseCommand):
                 if obj and obj.source_hash == h:
                     skipped += 1
                     continue
-               
+
 
                 ProductGroup.objects.update_or_create(
                     group_id=gid,

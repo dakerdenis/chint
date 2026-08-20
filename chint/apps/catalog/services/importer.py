@@ -1,12 +1,12 @@
+import json
+import time
+from pathlib import Path
+
+from django.conf import settings
+from django.db import connections, transaction
+
 from api_test2.services.chint_api import get
 from apps.catalog.models import Category, Product, Property, PropertyValue
-from django.db import transaction
-import time
-import json
-from pathlib import Path
-from django.conf import settings
-from django.db import connections
-
 
 PROGRESS_FILE = Path(settings.BASE_DIR) / "catalog_import_progress.json"
 

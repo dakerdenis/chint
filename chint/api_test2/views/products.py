@@ -1,6 +1,8 @@
 from django.http import JsonResponse
 from django.shortcuts import render
+
 from ..services.chint_api import get
+
 
 # ---------- JSON ----------
 def products_json(request):

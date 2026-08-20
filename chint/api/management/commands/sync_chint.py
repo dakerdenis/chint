@@ -1,5 +1,6 @@
 import hashlib
 import json
+
 from django.core.management.base import BaseCommand
 from django.db import transaction
 
@@ -74,11 +75,11 @@ class Command(BaseCommand):
                     defaults = {
                         "parent_id": p.get("parent_id") or "",
                         "vendor_code": vendor_code,
-                    
+
                         # CHINT отдаёт русские строки -> кладём ТОЛЬКО в RU-поля
                         "name_full_ru": p.get("full_name") or p.get("name") or "",
                         "name_short_ru": p.get("short_name") or "",
-                    
+
                         "picture_url": p.get("picture") or "",
                         "images": p.get("images") or [],
                         "source_hash": h,

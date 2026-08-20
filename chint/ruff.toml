@@ -1,0 +1,21 @@
+# Ruff configuration
+line-length = 120
+target-version = "py313"
+
+exclude = [
+    ".venv",
+    "migrations",
+    "*/migrations/*",
+    "static",
+    "media",
+    "locale",
+]
+
+[lint]
+select = ["E", "F", "W", "I"]
+ignore = [
+    "E501",  # line too long
+    "F401",  # imported but unused (Django __init__ files)
+    "F403",  # star imports (used in Django admin __init__)
+    "F405",  # name may be from star import
+]

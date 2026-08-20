@@ -1,5 +1,7 @@
 from django.db import models
+
 from .category import Category
+
 
 class Product(models.Model):
     id = models.UUIDField(primary_key=True)
@@ -14,15 +16,15 @@ class Product(models.Model):
     name = models.TextField()
     full_name = models.TextField()
     short_name = models.TextField()
-    
+
     name_en = models.TextField(blank=True, null=True)
     name_az = models.TextField(blank=True, null=True)
     name_ka = models.TextField(blank=True, null=True)
-    
+
     full_name_en = models.TextField(blank=True, null=True)
     full_name_az = models.TextField(blank=True, null=True)
     full_name_ka = models.TextField(blank=True, null=True)
-    
+
     short_name_en = models.TextField(blank=True, null=True)
     short_name_az = models.TextField(blank=True, null=True)
     short_name_ka = models.TextField(blank=True, null=True)

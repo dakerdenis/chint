@@ -1,12 +1,12 @@
-from django.shortcuts import render
-from django.http import JsonResponse
-from django.db.models import Q, Count
 from django.core.paginator import Paginator
+from django.db.models import Count, Q
+from django.http import JsonResponse
+from django.shortcuts import render
 
 from apps.catalog.models import Product, PropertyValue
 from web.views.catalog_products import (
-    PER_PAGE,
     EXCLUDED_PROPERTY_IDS,
+    PER_PAGE,
     PRIORITY_PROPERTY_IDS,
 )
 

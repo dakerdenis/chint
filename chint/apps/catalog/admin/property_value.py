@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from apps.catalog.models import PropertyValue
 
 
@@ -9,7 +10,7 @@ class PropertyValueAdmin(admin.ModelAdmin):
     list_display = ("product", "property", "value")
     autocomplete_fields = ("product", "property")
     readonly_fields = ()
-    
+
     fields = (
         "product",
         "property",

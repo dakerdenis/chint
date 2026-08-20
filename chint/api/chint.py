@@ -1,6 +1,7 @@
+import time
+
 import requests
 from django.conf import settings
-import time
 
 
 def chint_get(path: str, params: dict | None = None) -> dict:

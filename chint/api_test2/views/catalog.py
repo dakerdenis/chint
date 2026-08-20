@@ -1,6 +1,7 @@
 from django.shortcuts import render
+
+from ..services.catalog_tree import breadcrumb, build_tree, collect_descendants
 from ..services.chint_api import get
-from ..services.catalog_tree import build_tree, collect_descendants, breadcrumb
 
 ROOT_ALLOWED_ID = "fe5547de-3d84-11df-96f8-000c6ea69372"
 

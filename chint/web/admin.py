@@ -1,13 +1,9 @@
-from django.contrib import admin
-from .models import SiteText, News, NewsImage
-from .models import HomeFeaturedCategory
-from .models import HomeRecommendedProduct
-from .models import HomeSlider
-from .models import LibraryDocument
 from django import forms
+from django.contrib import admin
 
-from apps.catalog.models import Category
-from apps.catalog.models import Product
+from apps.catalog.models import Category, Product
+
+from .models import HomeFeaturedCategory, HomeRecommendedProduct, HomeSlider, LibraryDocument, News, NewsImage, SiteText
 
 
 @admin.register(SiteText)
@@ -90,10 +86,10 @@ class HomeFeaturedCategoryAdmin(admin.ModelAdmin):
         if HomeFeaturedCategory.objects.count() >= 8:
             return False
         return super().has_add_permission(request)
-    
-    
-    
-    
+
+
+
+
 class HomeRecommendedProductForm(forms.ModelForm):
     product = forms.ModelChoiceField(
         queryset=Product.objects.using("catalog").all(),
@@ -145,7 +141,7 @@ class HomeRecommendedProductAdmin(admin.ModelAdmin):
             kwargs["queryset"] = Product.objects.using("catalog").all()
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
-  
+
 @admin.register(HomeSlider)
 class HomeSliderAdmin(admin.ModelAdmin):
     list_display = ("title_en", "is_active", "sort_order")
@@ -204,7 +200,7 @@ class LibraryDocumentAdmin(admin.ModelAdmin):
         }),
         ("Files", {
             "fields": (
-                "icon", 
+                "icon",
                 "file_ru",
                 "file_en",
                 "file_az",

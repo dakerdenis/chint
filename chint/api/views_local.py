@@ -1,7 +1,9 @@
 from django.db.models import Q
 from django.http import JsonResponse
 from django.views.decorators.http import require_GET
+
 from api.models import Product
+
 
 @require_GET
 def catalog_products(request):

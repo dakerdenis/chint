@@ -1,9 +1,13 @@
 from django.urls import path
+
 from .views import (
-    index,
-    products_json, products_ui, product_ui,
-    categories, categories_ui,
+    categories,
+    categories_ui,
     category_page,
+    index,
+    product_ui,
+    products_json,
+    products_ui,
     properties_json,
     property_values_json,
 )

@@ -1,16 +1,12 @@
-from django.shortcuts import render, get_object_or_404
-from django.db.models import Prefetch
 from django.core.paginator import Paginator
+from django.db.models import Prefetch
+from django.shortcuts import get_object_or_404, render
 
-
-
-from api.models import Product, ProductGroup, CatalogCategory
-from apps.catalog.services.category_tree import collect_descendant_ids
-
+from api.models import CatalogCategory, ProductGroup
 from apps.catalog.models import Category, Product
 from apps.catalog.services.category_breadcrumbs import build_category_breadcrumbs
+from apps.catalog.services.category_tree import collect_descendant_ids
 
-from django.shortcuts import render, get_object_or_404
 ROOT_CATEGORY_TO_HIDE = "fe5547de-3d84-11df-96f8-000c6ea69372"
 LOW_VOLTAGE_ID = "4b505b87-6716-11ec-80e8-0025902f52d3"
 PER_PAGE = 20
@@ -71,7 +67,7 @@ def catalog_category(request, category_slug):
     )
 
     page_obj = _paginate_products(request, qs)
-    
+
 
 
     breadcrumbs = build_category_breadcrumbs(category)
@@ -131,17 +127,17 @@ def catalog_subcategory(request, category_slug, sub_slug):
 
 
     breadcrumbs = build_category_breadcrumbs(current)
-    
+
     # 🔥 Убираем "Готовая продукция"
     breadcrumbs = [
         b for b in breadcrumbs
         if str(b.id) != ROOT_CATEGORY_TO_HIDE
     ]
-    
+
     lang = request.LANGUAGE_CODE
     for cat in breadcrumbs:
         cat.translated_name = get_category_name(cat, lang)
-    
+
 
 
     return render(request, "pages/catalog-category.html", {

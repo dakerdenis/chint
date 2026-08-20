@@ -1,4 +1,5 @@
 from django import template
+
 from web.models import SiteText
 
 register = template.Library()

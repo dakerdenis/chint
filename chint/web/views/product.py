@@ -1,5 +1,6 @@
-from django.shortcuts import render, get_object_or_404
-from apps.catalog.models import Product, Property, PropertyValue, ProductDocument
+from django.shortcuts import get_object_or_404, render
+
+from apps.catalog.models import Product, ProductDocument, Property, PropertyValue
 from apps.catalog.services.category_breadcrumbs import build_category_breadcrumbs
 
 EXCLUDED_PROPERTY_IDS = {
@@ -37,7 +38,7 @@ def product_detail(request, product_id):
         Product.objects.using("catalog").filter(category__isnull=False),
         id=product_id
     )
-    
+
     lang = request.LANGUAGE_CODE
 
     # ---------- breadcrumbs ----------
@@ -60,25 +61,25 @@ def product_detail(request, product_id):
         breadcrumbs = trimmed
 
     # ---------- properties ----------
-    
+
     pv_queryset = (
         PropertyValue.objects
         .using("catalog")
         .select_related("property")
         .filter(product=product)
     )
-    
+
     properties = []
-    
+
     for pv in pv_queryset:
-    
+
         pid = str(pv.property_id)
-    
+
         if pid in EXCLUDED_PROPERTY_IDS:
             continue
-        
+
         prop = pv.property
-    
+
         # --- название свойства ---
         if lang == "en" and getattr(prop, "name_en", None):
             prop_name = prop.name_en
@@ -88,7 +89,7 @@ def product_detail(request, product_id):
             prop_name = prop.name_ka
         else:
             prop_name = prop.name
-    
+
         # --- значение ---
         if lang == "en" and pv.value_en:
             value = pv.value_en
@@ -98,7 +99,7 @@ def product_detail(request, product_id):
             value = pv.value_ka
         else:
             value = pv.value
-    
+
         properties.append({
             "id": pid,
             "name": prop_name,
@@ -106,7 +107,7 @@ def product_detail(request, product_id):
             "unit": pv.etim_unit,
         })
     priority_map = {pid: index for index, pid in enumerate(PRIORITY_PROPERTY_IDS)}
-    
+
     properties.sort(
         key=lambda x: priority_map.get(x["id"], 9999)
     )

@@ -1,6 +1,6 @@
-from django.http import JsonResponse
 from django.core.paginator import Paginator
 from django.db.models import Count
+from django.http import JsonResponse
 
 from apps.catalog.models import Category, Product, PropertyValue
 from apps.catalog.services.category_tree import collect_descendant_ids
@@ -19,7 +19,7 @@ EXCLUDED_PROPERTY_IDS = {
     "60335c29-c23b-11ef-a976-cfbfac8d01c2",
     "e8ea5435-6bc4-11f0-a9c6-fcb7586a0682",
     "e8ea546c-6bc4-11f0-a9c6-fcb7586a0682",
-    
+
 }
 PRIORITY_PROPERTY_IDS = [
     "8a621f8f-c23b-11ef-a976-cfbfac8d01c2",
@@ -32,7 +32,7 @@ PRIORITY_PROPERTY_IDS = [
     "6c30f610-c23b-11ef-a976-cfbfac8d01c2",
     "9669cb3d-c23b-11ef-a976-cfbfac8d01c2",
     "7e4a6e1c-c23b-11ef-a976-cfbfac8d01c2",
-    "60335c25-c23b-11ef-a976-cfbfac8d01c2",    
+    "60335c25-c23b-11ef-a976-cfbfac8d01c2",
     "783805c3-c23b-11ef-a976-cfbfac8d01c2",
     "783805d1-c23b-11ef-a976-cfbfac8d01c2",
     "9669cb2d-c23b-11ef-a976-cfbfac8d01c2",
@@ -122,13 +122,13 @@ def category_products(request, category_id):
             value_label = f["value_ka"]
         else:
             value_label = f["value"]
-        
+
         facets[pid]["values"].append({
             "value": f["value"],          # оригинал для фильтрации
             "label": value_label,         # перевод для отображения
             "count": f["count"]
         })
-        
+
     # ---------- MERGE DUPLICATE VALUES ----------
     for pid in facets:
         merged = {}
@@ -143,9 +143,9 @@ def category_products(request, category_id):
                     "count": entry["count"],
                 }
         facets[pid]["values"] = list(merged.values())
-        
-        
-        
+
+
+
     # ---------- SORT FACETS ----------
     priority_map = {pid: index for index, pid in enumerate(PRIORITY_PROPERTY_IDS)}
 

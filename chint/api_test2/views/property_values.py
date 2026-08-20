@@ -1,10 +1,11 @@
 from django.http import JsonResponse
+
 from ..services.chint_api import get
 
 
 def property_values_json(request):
     page = int(request.GET.get("page", 1))
-    limit = int(request.GET.get("limit", 25))
+
 
     resp = get("/api/products/", {
         "limit": 100,

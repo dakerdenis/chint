@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.db import models
 from django.forms import Textarea
 
-from .models import Product, ProductGroup, CatalogCategory
+from .models import CatalogCategory, Product, ProductGroup
 
 
 @admin.register(ProductGroup)

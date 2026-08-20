@@ -1,10 +1,10 @@
-from django.contrib import admin
-from django import forms
-from django.core.files.storage import default_storage
-from django.utils import timezone
-
 import os
 import uuid
+
+from django import forms
+from django.contrib import admin
+from django.core.files.storage import default_storage
+from django.utils import timezone
 
 from apps.catalog.models import Product, ProductDocument
 
@@ -104,33 +104,33 @@ class ProductAdmin(admin.ModelAdmin):
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         kwargs["using"] = self.using
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
-    
-    
+
+
 
 
     def save_model(self, request, obj, form, change):
         uploaded = form.cleaned_data.get("upload_image")
-    
+
         # ✅ FIX: если добавляем новый продукт и id пустой — генерим UUID (как в твоей базе)
         if not obj.id:
             obj.id = uuid.uuid1()
-    
+
         # ✅ если raw не заполнено — ставим пустой объект
         if not obj.raw:
             obj.raw = {}
-    
+
         if (not obj.picture) and uploaded:
             ext = os.path.splitext(uploaded.name)[1].lower() or ".jpg"
             fname = f"{uuid.uuid4().hex}{ext}"
             path = f"product/images/{timezone.now().strftime('%Y/%m')}/{fname}"
-    
+
             saved_path = default_storage.save(path, uploaded)
             obj.picture = default_storage.url(saved_path)
-    
+
         obj.save(using=self.using)
-            
-        
-        
+
+
+
     def save_formset(self, request, form, formset, change):
         instances = formset.save(commit=False)
 

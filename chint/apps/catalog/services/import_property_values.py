@@ -1,5 +1,6 @@
-from django.test import Client
 from django.db import transaction
+from django.test import Client
+
 from apps.catalog.models import PropertyValue
 
 

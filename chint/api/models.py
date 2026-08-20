@@ -1,6 +1,7 @@
-from django.db import models
 from django.core.validators import RegexValidator
+from django.db import models
 from django.utils.text import slugify
+
 
 class ProductGroup(models.Model):
     group_id = models.CharField(max_length=36, unique=True, db_index=True)
@@ -19,8 +20,8 @@ class ProductGroup(models.Model):
 
     def __str__(self):
         return self.name_ru or self.name_en or self.name_az or self.name_ka or self.group_id
-    
-    
+
+
 
 class Product(models.Model):
     chint_id = models.CharField(max_length=36, unique=True, db_index=True)
@@ -30,13 +31,13 @@ class Product(models.Model):
 
     name_full_ru = models.TextField(blank=True, default="")
     name_short_ru = models.TextField(blank=True, default="")
-    
+
     name_full_en = models.TextField(blank=True, default="")
     name_short_en = models.TextField(blank=True, default="")
-    
+
     name_full_az = models.TextField(blank=True, default="")
     name_short_az = models.TextField(blank=True, default="")
-    
+
     name_full_ka = models.TextField(blank=True, default="")
     name_short_ka = models.TextField(blank=True, default="")
 
