@@ -45,3 +45,52 @@ class PublicPagesTest(TestCase):
     def test_root_redirects_to_locale(self):
         response = self.client.get("/")
         self.assertEqual(response.status_code, 302)
+
+
+
+
+class ViewsTest(TestCase):
+    """HTTP-level tests for public views and routing."""
+
+    databases = {"default", "catalog"}
+
+    def test_static_pages_return_200(self):
+        # simple pages that render without requiring DB data
+        for url in ["/en/about/", "/en/contacts/", "/en/tech-consult/"]:
+            with self.subTest(url=url):
+                response = self.client.get(url)
+                self.assertEqual(response.status_code, 200)
+
+    def test_policy_pages_return_200(self):
+        for url in [
+            "/en/politics/privacy-policy/",
+            "/en/politics/cookie/",
+            "/en/politics/user-agreement/",
+        ]:
+            with self.subTest(url=url):
+                response = self.client.get(url)
+                self.assertEqual(response.status_code, 200)
+
+    def test_catalog_returns_404_when_root_missing(self):
+        # catalog root is looked up by a fixed UUID; absent in a fresh test DB,
+        # so the view correctly returns 404 via get_object_or_404
+        response = self.client.get("/en/catalog/")
+        self.assertEqual(response.status_code, 404)
+
+    def test_unknown_page_returns_404(self):
+        response = self.client.get("/en/this-page-does-not-exist/")
+        self.assertEqual(response.status_code, 404)
+
+
+class LocaleRedirectTest(TestCase):
+    """Root URL should redirect to the default localized prefix."""
+
+    def test_root_redirects_to_english(self):
+        response = self.client.get("/")
+        self.assertEqual(response.status_code, 302)
+        self.assertIn("/en", response.url)
+
+    def test_localized_root_is_reachable(self):
+        # /en/ should not 404 or 500 — it's the localized home
+        response = self.client.get("/en/")
+        self.assertNotEqual(response.status_code, 404)
